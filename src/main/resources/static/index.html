@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EasyBuy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+</head>
+<body>
+    <div class="w3-bar w3-black" th:fragment="main">
+            <a href="/" class="w3-bar-item w3-button">Home</a>
+            <a href="/mybooks" class="w3-bar-item w3-button">My Books</a>
+            <a href="/manage" class="w3-bar-item w3-button">Manage</a>
+            <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
+            <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
+            <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
+        </div>
+    <div class="w3-container w3-margin">
+        <form class="w3-row-padding" action="/" method="post">
+            <button class="w3-button w3-border w3-green w3-right w3-margin-left" style="width:100px">Search</button>
+            <div class="w3-rest">
+                <input type="text" class="w3-input w3-border" name="term" th:value="${term}"/>
+            </div>
+        </form>
+
+    <div class="w3-row-padding w3-margin-top" th:fragment="list(books)">
+            <div class="w3-col s12 m4 l3" th:each="b : ${books}">
+                <a href="book.html" th:href="@{/book(bookId=${b.id})}" class="w3-card-4" style="display:block">
+                    <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                    <div class="w3-container">
+                        <h3 th:text="${b.title}">La Geometria Mar</h3>
+                        <p th:text="${b.author}">Herodes Palomo Chavez</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        
+        <div class="w3-row-padding w3-margin-top" th:fragment="give-list(books, user)">
+            <div class="w3-col s12 m4 l3 w3-margin-top" th:each="b : ${books}">
+                <form th:action="@{/manage/give}" class="w3-card-4" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <input type="hidden" name="bookId" th:value="${b.id}" />
+                    <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                    <div class="w3-container">
+                        <h3 th:text="${b.title}">La Geometria Mar</h3>
+                        <p th:text="${b.author}">Herodes Palomo Chavez</p>
+                    </div>
+                    <button class="w3-button w3-blue w3-block">Give</button>
+                </form>
+            </div>
+
+        </div>
+        
+        <div class="w3-row-padding w3-margin-top" th:fragment="take-list(books, user)">
+            <div class="w3-col s12 m4 l3 w3-margin-top" th:each="b : ${books}">
+                <form th:action="@{/manage/take}" class="w3-card-4" method="post">
+                    <input type="hidden" name="userId" th:value="${user.id}" />
+                    <input type="hidden" name="bookId" th:value="${b.id}" />
+                    <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                    <div class="w3-container">
+                        <h3 th:text="${b.title}">La Geometria Mar</h3>
+                        <p th:text="${b.author}">Herodes Palomo Chavez</p>
+                    </div>
+                    <button class="w3-button w3-blue w3-block">Take</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
