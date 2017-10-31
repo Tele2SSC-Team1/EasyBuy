@@ -34,11 +34,11 @@ function myAccFunc() {
       <a href="#" class="w3-bar-item w3-button">Some filter</a>
       <a href="#" class="w3-bar-item w3-button">Some filter 2</a>
       <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
-        Accordion <i class="fa fa-caret-down"></i>
+        Colour <i class="fa fa-caret-down"></i>
        </button>
       <div id="demoAcc" class="w3-hide w3-white w3-card">
-        <a href="#" class="w3-bar-item w3-button">Link</a>
-        <a href="#" class="w3-bar-item w3-button">Link</a>
+        <input class="w3-check w3-margin-left" type="checkbox" checked="checked"><label> Red</label><br/>
+        <input class="w3-check w3-margin-left" type="checkbox" checked="checked"><label> Green</label>
       </div>
       <a href="#" class="w3-bar-item w3-button">Some filter 3</a>
     </div>
@@ -48,7 +48,6 @@ function myAccFunc() {
     <div class="w3-bar w3-black" th:fragment="main">
             <button class="w3-bar-item w3-button w3-white" onclick="w3_open()">&#9776;</button>
             <a href="/" class="w3-bar-item w3-button">Home</a>
-            <a href="#" class="w3-bar-item w3-button">My Books</a>
             <a href="#" class="w3-bar-item w3-button">Manage</a>
             <a href="#" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
             <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
