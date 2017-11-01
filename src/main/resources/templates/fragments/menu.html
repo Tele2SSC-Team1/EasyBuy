@@ -30,9 +30,9 @@
                   <button class="w3-bar-item w3-button w3-white" onclick="w3_open()">&#9776;</button>
                   <a href="/" class="w3-bar-item w3-button">Home</a>
                   <a href="#" class="w3-bar-item w3-button">Manage</a>
-                  <a href="#" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
+                  <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
                   <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
-                  <a href="#" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
+                  <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
                   <a href="/" class="w3-bar-item w3-button w3-right"><i class="fa fa-shopping-cart" style="font-size:18px;color:white"></i></a>
           </div>
         </div>
