@@ -19,3 +19,11 @@ values (3, 'Seller', 'seller@gmail.com', 'seller', 5555555);
 
 insert into user_role(user_id, role_id) values (3,3);
 
+insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS) values
+    (1, 50, 'CEDO03', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 32GB DUAL BLACK ENG/RU', 159, 1, 'AVAILABLE');
+
+insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS) values
+    (2, 150, 'CEDO04', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI NOTE 4 3GB RAM 32GB BLACK ENG/RU', 175, 1, 'AVAILABLE');
+
+insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS) values
+    (3, 30, 'CEDO05', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 32GB WHITE/GOLD ENG/RU', 146, 1, 'AVAILABLE');
