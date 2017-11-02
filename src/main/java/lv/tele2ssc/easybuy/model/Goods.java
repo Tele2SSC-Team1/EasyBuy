@@ -45,17 +45,6 @@ public class Goods implements Serializable {
     @Column(nullable = false)
     private int amount;
        
-    @OneToMany(mappedBy = "category")
-    private Set<GoodsCategories> category = new HashSet<GoodsCategories>();
-
-    public Set<GoodsCategories> getGoodsCategories() {
-        return category;
-    }
-
-    public void setGoodsCategories(Set<GoodsCategories> category) {
-        this.category = category;
-    }
-
     public Long getSellerId() {
         return sellerId;
     }

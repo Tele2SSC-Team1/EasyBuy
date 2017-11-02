@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Bookshelf</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+    
+        <div th:replace="fragments/menu :: main"></div>
+
+        <div class="w3-container w3-margin">
+            <a hrem="#" th:href="@{/edit-goods(goodsId=${goods.id})}">edit</a>
+            <div class="w3-row-padding">
+                <h1 class="w3-col s12" th:text="${goods.name}">La Geometria Mar</h1>
+            </div>
+            <div class="w3-row-padding">
+                <div class="w3-col l4 m6 s12">
+                    <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                </div>
+                <div class="w3-col l8 m6 s12">
+                    <table class="w3-table w3-bordered">
+                        <tr>
+                            <th style="width:50px">Category</th>
+                            <td th:text="${category.name}">Herodes Palomo Chavez</td>
+                        </tr>
+                        <tr>
+                            <th>Seller Name</th>
+                            <td th:text="${seller.name}">99-7854-060-1</td>
+                        </tr>
+                        <tr>
+                            <th>Code</th>
+                            <td th:text="${goods.code}">99-7854-060-1</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td th:text="${goods.status}">1989</td>
+                        </tr>
+                        <tr>
+                            <th>Manufacturer</th>
+                            <td th:text="${goods.manufacturer}">1989</td>
+                        </tr>
+                        <tr>
+                            <th>Amount</th>
+                            <td th:text="${goods.amount}">1989</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td th:text="${goods.price}">1989</td>
+                        </tr>
+                    </table>
+                    <form action="mybooks.html" th:action="@{/order}" method="post">
+                        <input type="hidden" name="goodsId" th:value="${goods.id}"/>
+                        <button class="w3-button w3-right w3-red">Order</button>
+                    </form>
+                </div>
+            </div>
+            <div class="w3-row-padding">
+                <div class="w3-col s12">
+                    <h3>Description:</h3>
+                    <p th:text="${goods.description}">Lorem ipsum dolor sit amet</p>
+                </div>
+            </div>
+        </div>
+        
+    <th:block layout:replace="fragments/menu :: script"/>
+    </body>
+</html>

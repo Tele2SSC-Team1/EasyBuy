@@ -25,17 +25,6 @@ public class Category {
     
     @Column(length = 2000)
     private String description;
-    
-    @OneToMany(mappedBy = "goods")
-    private Set<GoodsCategories> goods = new HashSet<GoodsCategories>();
-
-    public Set<GoodsCategories> getGoodsCategories() {
-        return goods;
-    }
-
-    public void setGoodsCategories(Set<GoodsCategories> goods) {
-        this.goods = goods;
-    }
 
     public Long getId() {
         return id;
