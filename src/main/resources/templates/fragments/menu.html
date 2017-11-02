@@ -1,20 +1,67 @@
-<!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Bookshelf</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
-    </head>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorator="index.html">
+<head>
+    <title>EasyBuy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+</head>
     <body>
-        
-        <div class="w3-bar w3-black" th:fragment="main">
-            <a href="/" class="w3-bar-item w3-button">Home</a>
-         <!--   <a href="/mybooks" class="w3-bar-item w3-button">My Books</a>-->
-          <!-- <a href="/manage" class="w3-bar-item w3-button" th:if="${currentUser != null}">Manage</a>-->
-            <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
-            <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
-            <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
+        <div th:fragment="main">
+                  <!-- Sidebar -->
+          <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
+            <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close &times;</button>
+            <a href="#" class="w3-bar-item w3-button">Some filter</a>
+            <a href="#" class="w3-bar-item w3-button">Some filter 2</a>
+            <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
+              Colour <i class="fa fa-caret-down"></i>
+             </button>
+            <div id="demoAcc" class="w3-hide w3-white w3-card">
+              <input class="w3-check w3-margin-left" type="checkbox" checked="checked"/><label> Red</label><br/>
+              <input class="w3-check w3-margin-left" type="checkbox" checked="checked"/><label> Green</label>
+            </div>
+            <a href="#" class="w3-bar-item w3-button">Some filter 3</a>
+          </div>
+          <!-- Page Content -->
+          <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+          <div class="w3-bar w3-black" >
+                  <button class="w3-bar-item w3-button w3-white" onclick="w3_open()">&#9776;</button>
+                  <a href="/" class="w3-bar-item w3-button">Home</a>
+                  <a href="#" class="w3-bar-item w3-button">Manage</a>
+                  <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
+                  <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
+                  <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
+                  <a href="/" class="w3-bar-item w3-button w3-right"><i class="fa fa-shopping-cart" style="font-size:18px;color:white"></i></a>
+          </div>
         </div>
         
+        <th:block   xmlns:th="http://www.thymeleaf.org"
+                    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                    layout:fragment="script">
+
+            <script>
+                function w3_open() {
+                    document.getElementById("mySidebar").style.display = "block";
+                    document.getElementById("myOverlay").style.display = "block";
+                }
+                function w3_close() {
+                    document.getElementById("mySidebar").style.display = "none";
+                    document.getElementById("myOverlay").style.display = "none";
+                }
+                function myAccFunc() {
+                    var x = document.getElementById("demoAcc");
+                    if (x.className.indexOf("w3-show") == -1) {
+                        x.className += " w3-show";
+                        x.previousElementSibling.className += " w3-green";
+                    } else { 
+                        x.className = x.className.replace(" w3-show", "");
+                        x.previousElementSibling.className = 
+                        x.previousElementSibling.className.replace(" w3-green", "");
+                    }
+                }
+            </script>
+        </th:block>
     </body>
 </html>
