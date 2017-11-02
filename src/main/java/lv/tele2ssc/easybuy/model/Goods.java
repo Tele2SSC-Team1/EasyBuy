@@ -1,12 +1,16 @@
 package lv.tele2ssc.easybuy.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -26,17 +30,13 @@ public class Goods implements Serializable {
     @NotEmpty
     private String code;
     
-    @JoinColumn (name="category_id")
-    @NotEmpty
     @ManyToOne
-    private Categories categoryId;
+    private User seller;
     
-    @JoinColumn (name = "seller_id") 
     @ManyToOne
-    private User sellerId;
+    private Category category;
     
-    @Column
-    @NotEmpty
+    @Column(nullable = false)
     private int price;
     
     @Column
@@ -44,8 +44,11 @@ public class Goods implements Serializable {
     private String status;
     
     @Column
-    @NotEmpty
+    private String manufacturer;
+    
+    @Column(nullable = false)
     private int amount;
+      
 
     public Long getId() {
         return id;
@@ -79,22 +82,6 @@ public class Goods implements Serializable {
         this.code = code;
     }
 
-    public Categories getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Categories categoryId) {
-        this.categoryId = categoryId;
-    }
-    
-    public User getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(User sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public int getPrice() {
         return price;
     }
@@ -126,7 +113,22 @@ public class Goods implements Serializable {
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
     
-    @Column
-    private String manufacturer;
+    
 }

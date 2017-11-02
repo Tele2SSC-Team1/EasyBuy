@@ -25,6 +25,7 @@ public class GoodsService {
     }
     
     public void saveGoods(Goods goods) {
+        
         goodsRepository.save(goods);
     }
 }
