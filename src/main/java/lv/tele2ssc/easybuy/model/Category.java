@@ -1,10 +1,13 @@
 package lv.tele2ssc.easybuy.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -22,6 +25,17 @@ public class Category {
     
     @Column(length = 2000)
     private String description;
+    
+    @OneToMany(mappedBy = "goods")
+    private Set<GoodsCategories> goods = new HashSet<GoodsCategories>();
+
+    public Set<GoodsCategories> getGoodsCategories() {
+        return goods;
+    }
+
+    public void setGoodsCategories(Set<GoodsCategories> goods) {
+        this.goods = goods;
+    }
 
     public Long getId() {
         return id;

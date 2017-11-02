@@ -29,7 +29,6 @@ public class User implements Serializable{
     private String fullName;
     
     @Column(name = "phone_num")
-    @NotEmpty
     private Integer phoneNum;
    
     @Column(name = "email")

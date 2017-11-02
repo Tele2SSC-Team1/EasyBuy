@@ -31,8 +31,14 @@
                   <a href="/" class="w3-bar-item w3-button">Home</a>
                   <a href="#" class="w3-bar-item w3-button">Manage</a>
                   <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
-                  <a href="/logout" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}">Log out</a>
-                  <a href="/profile" class="w3-bar-item w3-button w3-right" th:if="${currentUser != null}" th:text="${currentUser.fullName}">User Name</a>
+                  <div class="w3-dropdown-click w3-right" th:if="${currentUser != null}" >
+                    <button onclick="accountProperties()" class="w3-button w3-black" th:text="${currentUser.fullName}">User Name</button>
+                    <div id="accountDropDown" class="w3-dropdown-content w3-bar-block w3-border">
+                      <a href="/new_item" class="w3-bar-item w3-button">Add</a>
+                      <a href="/profile" class="w3-bar-item w3-button">Account</a>
+                      <a href="/logout" class="w3-bar-item w3-button">Log out</a>
+                    </div>
+                  </div>
                   <a href="/" class="w3-bar-item w3-button w3-right"><i class="fa fa-shopping-cart" style="font-size:18px;color:white"></i></a>
           </div>
         </div>
@@ -59,6 +65,14 @@
                         x.className = x.className.replace(" w3-show", "");
                         x.previousElementSibling.className = 
                         x.previousElementSibling.className.replace(" w3-green", "");
+                    }
+                }
+                function accountProperties() {
+                    var x = document.getElementById("accountDropDown");
+                    if (x.className.indexOf("w3-show") == -1) {  
+                        x.className += " w3-show";
+                    } else { 
+                        x.className = x.className.replace(" w3-show", "");
                     }
                 }
             </script>

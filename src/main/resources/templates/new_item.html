@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>EasyBuy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+
+        <div th:replace="fragments/menu :: main"></div>
+
+        <div class="w3-container w3-margin">
+            <div th:if="${successMessage != null}" class="w3-panel w3-green">
+                <p th:text="${successMessage}"/>
+            </div>
+            <form class="w3-row-padding" action="#" th:action="@{/new_item}" method="post" th:object="${goods}">
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:value="${currentUser.id}" name="userId"/>
+                <div>
+                    <label>Item name</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('name')}">
+                        <p th:errors="*{name}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{name}"/>
+                </div>
+                <div>
+                    <label>Description</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('description')}">
+                        <p th:errors="*{description}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{description}"/>
+                </div>
+                <div>
+                    <label>Code</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('code')}">
+                        <p th:errors="*{code}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{code}"/>
+                </div>
+                <div>
+                    <label>Price</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('price')}">
+                        <p th:errors="*{price}"></p>
+                    </div>
+                    <input type="number" class="w3-input w3-border" th:field="*{price}"/>
+                </div>
+                <div>
+                    <label>Status</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('status')}">
+                        <p th:errors="*{status}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{status}"/>
+                </div>
+                <div>
+                    <label>Manufacturer</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('manufacturer')}">
+                        <p th:errors="*{manufacturer}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{manufacturer}"/>
+                </div>
+                <div>
+                    <label>Amount</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('amount')}">
+                        <p th:errors="*{amount}"></p>
+                    </div>
+                    <input type="number" class="w3-input w3-border" th:field="*{amount}"/>
+                </div>
+                <div>
+                    <button class="w3-button w3-black" th:if="${goods.id == null}">Add</button>
+                    <button class="w3-button w3-black" th:if="${goods.id != null}">Save</button>
+                </div>
+            </form>
+        </div>
+<th:block layout:replace="fragments/menu :: script"/>
+    </body>
+</html>
