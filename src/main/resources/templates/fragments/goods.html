@@ -2,14 +2,14 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Books</title>
+        <title>Goods</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
         <div class="w3-row-padding w3-margin-top" th:fragment="list(goods)">
             <div class="w3-col s12 m4 l3" th:each="g : ${goods}">
-                <a href="goods.html" th:href="@{/goods(goodsId=${g.id})}" class="w3-card-4" style="display:block">
+                <a href="good.html" th:href="@{/goods(goodsId=${g.id})}" class="w3-card-4" style="display:block">
                     <img src="http://via.placeholder.com/300x300" style="width:100%"/>
                     <div class="w3-container">
                         <h3 th:text="${g.name}">La Geometria Mar</h3>

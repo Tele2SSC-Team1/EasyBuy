@@ -1,8 +1,11 @@
 package lv.tele2ssc.easybuy.controllers;
 
+import java.util.List;
+import java.util.Set;
 import lv.tele2ssc.easybuy.services.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lv.tele2ssc.easybuy.model.Role;
 import lv.tele2ssc.easybuy.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +35,14 @@ public class CurrentUserInterceptor extends HandlerInterceptorAdapter {
         // if user isn't logged in yet - email is null.
         if (email != null) {
             User currentUser = userService.findByEmail(email);
+            Set<Role> currentRoles = currentUser.getRoles();
+            
             modelAndView.addObject("currentUser", currentUser);
+            for (Role s : currentRoles) {
+                if (s.getName()=="seller") {
+                    modelAndView.addObject("currentRole", s);
+                }
+            }
         }
     }
     
