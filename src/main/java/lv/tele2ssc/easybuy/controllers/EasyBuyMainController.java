@@ -23,7 +23,7 @@ public class EasyBuyMainController {
     private static final Logger logger 
             = LoggerFactory.getLogger(EasyBuyMainController.class);
     
-    @RequestMapping(path = "/",method = RequestMethod.GET)
+  //  @RequestMapping(path = "/",method = RequestMethod.GET)
     public String page(Model model) {
         
        // model.addAttribute("attribute", "value");
