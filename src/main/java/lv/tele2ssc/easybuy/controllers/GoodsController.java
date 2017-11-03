@@ -1,5 +1,6 @@
 package lv.tele2ssc.easybuy.controllers;
 
+import java.util.List;
 import lv.tele2ssc.easybuy.services.UserService;
 import java.util.Objects;
 import java.util.Set;
@@ -31,12 +32,14 @@ public class GoodsController {
     @RequestMapping(path = "/new_item", method = RequestMethod.GET)
     public String newItem(Model model) {
         Goods goods = new Goods();
+        List<Category> categories = goodsService.findAllCategories();
         model.addAttribute("goods", goods);
+        model.addAttribute("category", categories);
         return "new_item";
     }
     
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam long userId,@Valid Goods goods, BindingResult bindingResult, Model model) {
+    public String newItem(@RequestParam long userId,@RequestParam Category category, @Valid Goods goods, BindingResult bindingResult, Model model) {
         
         // validation isn't passed return back to registration form
         if (bindingResult.hasErrors()) {
@@ -47,7 +50,9 @@ public class GoodsController {
         
         User seller = userService.findUser(userId);
         goods.setSeller(seller);
+        goods.setCategory(category);
         goodsService.saveGoods(goods);
+        
         
         if (creating) {
             model.addAttribute("successMessage", "You are successfuly add new item");

@@ -37,7 +37,7 @@ public class Goods implements Serializable {
     private Category category;
     
     @Column(nullable = false)
-    private int price;
+    private float price;
     
     @Column
     @NotEmpty
@@ -82,11 +82,11 @@ public class Goods implements Serializable {
         this.code = code;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

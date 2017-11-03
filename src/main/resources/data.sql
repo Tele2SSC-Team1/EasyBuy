@@ -1,6 +1,9 @@
 insert into category(ID, DESCRIPTION, FILTER, NAME) values
     (1, 'Mobile Phones', 'none', 'Mobile phone');
 
+insert into category(ID, DESCRIPTION, FILTER, NAME) values
+    (2, 'TV', 'none', 'TV');
+
 insert into role (id, role_name) values (1, 'admin');
 
 insert into user (id, full_name, email, password, PHONE_NUM)
