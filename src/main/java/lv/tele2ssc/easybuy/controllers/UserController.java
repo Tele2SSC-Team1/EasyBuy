@@ -91,36 +91,5 @@ public class UserController {
         if (p1 != null && !p1.equals(p2)) {
             bindingResult.rejectValue("password2", "pwd-not-match",  "Passwords don't match");
         }
-    }
-    
-    @RequestMapping(path = "/new_item", method = RequestMethod.GET)
-    public String newItem(Model model) {
-        Goods goods = new Goods();
-        model.addAttribute("goods", goods);
-        return "new_item";
-    }
-    
-    @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam long userId,@Valid Goods goods, BindingResult bindingResult, Model model) {
-        
-        // validation isn't passed return back to registration form
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
-        boolean creating = goods.getId() == null;
-        
-        User seller = userService.findUser(userId);
-        goods.setSeller(seller);
-        goodsService.saveGoods(goods);
-        
-        if (creating) {
-            model.addAttribute("successMessage", "You are successfuly add new item");
-        } else {
-            model.addAttribute("successMessage", "Item is updated");
-        }
-        
-        return "new_item";
-    }
-    
+    }    
 }

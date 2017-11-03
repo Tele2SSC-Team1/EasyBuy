@@ -35,14 +35,8 @@ public class CurrentUserInterceptor extends HandlerInterceptorAdapter {
         // if user isn't logged in yet - email is null.
         if (email != null) {
             User currentUser = userService.findByEmail(email);
-            Set<Role> currentRoles = currentUser.getRoles();
             
             modelAndView.addObject("currentUser", currentUser);
-            for (Role s : currentRoles) {
-                if (s.getName()=="seller") {
-                    modelAndView.addObject("currentRole", s);
-                }
-            }
         }
     }
     
