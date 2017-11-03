@@ -1,8 +1,8 @@
-insert into category(ID, DESCRIPTION, FILTER, NAME) values
-    (1, 'Mobile Phones', 'none', 'Mobile phone');
+insert into category(ID, DESCRIPTION, category_name, sub_category_name) values
+    (1, 'Mobile Phones', 'Mobile phone', 'Mobile phone');
 
-insert into category(ID, DESCRIPTION, FILTER, NAME) values
-    (2, 'TV', 'none', 'TV');
+insert into category(ID, DESCRIPTION, category_name, sub_category_name) values
+    (2, 'TV', 'TV', 'TV');
 
 insert into role (id, role_name) values (1, 'admin');
 

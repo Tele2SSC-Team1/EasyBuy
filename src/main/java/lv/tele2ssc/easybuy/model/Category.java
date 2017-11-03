@@ -16,12 +16,13 @@ public class Category {
     @GeneratedValue
     private Long id;
     
-    @Column
+    @Column(name="category_name")
     @NotEmpty
-    private String name;
+    private String categoryName;
     
-    @Column
-    private String filter;
+    @Column(name="sub_category_name")
+    @NotEmpty
+    private String subCategoryName;
     
     @Column(length = 2000)
     private String description;
@@ -34,21 +35,22 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getFilter() {
-        return filter;
+    public String getSubCategoryName() {
+        return subCategoryName;
     }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName = subCategoryName;
     }
+
 
     public String getDescription() {
         return description;

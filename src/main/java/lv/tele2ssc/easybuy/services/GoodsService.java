@@ -21,6 +21,10 @@ public class GoodsService {
         return categoryRepository.findAll();
     }
     
+    public Category findCategoryById(long categoryId) {
+        return categoryRepository.findOne(categoryId);
+    }
+    
     public List<Category> findByCategory(String categoryName) {
         return categoryRepository.findByCategory(categoryName);
     }
@@ -33,7 +37,7 @@ public class GoodsService {
         return goodsRepository.findAll();
     }
     
-    public Goods findById(long goodsId) {
+    public Goods findGoodById(long goodsId) {
         return goodsRepository.findOne(goodsId);
     }
     

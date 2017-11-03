@@ -5,7 +5,6 @@ import lv.tele2ssc.easybuy.services.UserService;
 import java.util.Objects;
 import java.util.Set;
 import javax.validation.Valid;
-import lv.tele2ssc.easybuy.model.Categories;
 import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Goods;
 import lv.tele2ssc.easybuy.model.Role;
@@ -39,7 +38,7 @@ public class GoodsController {
     }
     
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam long userId,@RequestParam Category category, @Valid Goods goods, BindingResult bindingResult, Model model) {
+    public String newItem(@RequestParam long userId,@RequestParam long categoryId, @Valid Goods goods, BindingResult bindingResult, Model model) {
         
         // validation isn't passed return back to registration form
         if (bindingResult.hasErrors()) {
@@ -50,7 +49,7 @@ public class GoodsController {
         
         User seller = userService.findUser(userId);
         goods.setSeller(seller);
-        goods.setCategory(category);
+        goods.setCategory(goodsService.findCategoryById(categoryId));
         goodsService.saveGoods(goods);
         
         
@@ -65,7 +64,7 @@ public class GoodsController {
     
     @RequestMapping(path = "/good", method = RequestMethod.GET)
     public String oneGood(@RequestParam long goodsId, Model model) {
-        Goods g1 = goodsService.findById(goodsId);
+        Goods g1 = goodsService.findGoodById(goodsId);
         Category c1 = g1.getCategory();
         User u1=g1.getSeller();
         

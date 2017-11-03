@@ -15,7 +15,7 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
     
     List<Category> findAll();
     
-    @Query("SELECT g FROM Categories g WHERE lower(g.categoryName) like %?1%")
+    @Query("SELECT g FROM Category g WHERE lower(g.categoryName) like %?1%")
     List<Category> findByCategory(String categoryName);    
   
     
