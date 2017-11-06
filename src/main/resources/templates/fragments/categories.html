@@ -12,7 +12,7 @@
 
             <div class="w3-dropdown-click" th:each="c : ${categories}">
                 <button class="w3-button" th:onclick="'myDropFunc('+${c.id}+')'">
-                    <div  th:text="${c.categoryName}"></div> <i class="fa fa-caret-down"></i>
+                    <span  th:text="${c.categoryName}"></span> <i class="fa fa-caret-down"></i>
                 </button>
                 <div th:id="${c.id}" class="w3-hide w3-bar-block w3-white w3-card" th:each="sc : ${c.subCategories}">
                     <a href="#" class="w3-bar-item w3-button"><div th:text="${sc.categoryName}"></div></a>
