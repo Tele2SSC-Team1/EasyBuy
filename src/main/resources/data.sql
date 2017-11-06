@@ -1,8 +1,14 @@
-insert into category(ID, DESCRIPTION, category_name, sub_category_name) values
-    (1, 'Mobile Phones', 'Mobile phone', 'Mobile phone');
+insert into category(ID, DESCRIPTION, category_name, parent_id) values
+    (1, 'Mobile Phones', 'Mobile phone', null);
 
-insert into category(ID, DESCRIPTION, category_name, sub_category_name) values
-    (2, 'TV', 'TV', 'TV');
+insert into category(ID, DESCRIPTION, category_name, parent_id) values
+    (2, 'TV', 'TV', null);
+
+insert into category(ID, DESCRIPTION, category_name, parent_id) values
+    (3, 'Samsung', 'Samsung', 2);
+
+insert into category(ID, DESCRIPTION, category_name, parent_id) values
+    (4, 'IPhone', 'IPhone', 1);
 
 insert into role (id, role_name) values (1, 'admin');
 

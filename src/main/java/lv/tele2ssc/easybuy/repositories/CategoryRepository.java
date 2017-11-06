@@ -13,10 +13,11 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     
-    List<Category> findAll();
+    @Query(value = "SELECT g FROM Category g WHERE g.parent is null")
+    List<Category> findCategories();
     
-    @Query("SELECT g FROM Category g WHERE lower(g.categoryName) like %?1%")
-    List<Category> findByCategory(String categoryName);    
+   // @Query("SELECT g FROM Category g WHERE g.id like %?1%")
+   // List<Category> findByCategory(Long Id);    
   
     
 }
