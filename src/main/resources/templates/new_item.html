@@ -69,8 +69,9 @@
                 <div th:fragment="list(category)">
                     <label>Category</label>
                     <select class="w3-select" name="categoryId" >
-                        <option value="" th:disabled="disabled" th:selected="selected">Choose your category</option>
-                        <option value="1" th:text="${c.categoryName} + ' | ' + ${c.subCategoryName}" th:value="${c.id}" name="categoryId" th:each="c : ${category}">Option 1</option>
+                        <option value="" disabled="disabled" selected="selected" th:if="${goodCategory} == null">Choose your category</option>
+                        <option value="1" selected="selected" th:if="${goodCategory} != null" th:text="${goodCategory.categoryName} + ' | ' + ${goodCategory.subCategoryName}" th:value="${goodCategory.id}" name="categoryId">Option 1</option>
+                        <option value="2" th:if="${goodCategory} != ${c}" th:text="${c.categoryName} + ' | ' + ${c.subCategoryName}" th:value="${c.id}" name="categoryId" th:each="c : ${category}">Option 1</option>
                     </select>
                 </div>
                 <div>

@@ -37,6 +37,17 @@ public class GoodsController {
         return "new_item";
     }
     
+    @RequestMapping(path = "/edit_item", method = RequestMethod.GET)
+    public String editItem(@RequestParam long goodsId, Model model) {
+        Goods goods = goodsService.findGoodById(goodsId);
+        List<Category> categories = goodsService.findAllCategories();
+        Category goodCategory = goods.getCategory();
+        model.addAttribute("goods", goods);
+        model.addAttribute("category", categories);
+        model.addAttribute("goodCategory", goodCategory);
+        return "new_item";
+    }
+    
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
     public String newItem(@RequestParam long userId,@RequestParam long categoryId, @Valid Goods goods, BindingResult bindingResult, Model model) {
         
