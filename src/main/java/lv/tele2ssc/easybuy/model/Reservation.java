@@ -1,10 +1,15 @@
 package lv.tele2ssc.easybuy.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -14,12 +19,26 @@ public class Reservation implements Serializable {
     @GeneratedValue
     private Long id;
     
-    @Column(name = "client_id")
-    @NotEmpty
-    private Long cliendId;
+    @ManyToOne
+    private User client;
 
     @Column
-    private String status;
+    private ReservationStatus status;
+    
+    @Column
+    private Timestamp created;
+    
+    @OneToMany
+    @JoinColumn(name = "reservation_id")
+    private List<ReservationGoods> reservationGoods;
+    
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
     
     public Long getId() {
         return id;
@@ -29,20 +48,29 @@ public class Reservation implements Serializable {
         this.id = id;
     }
 
-    public Long getCliendId() {
-        return cliendId;
+    public User getClient() {
+        return client;
     }
 
-    public void setCliendId(Long cliendId) {
-        this.cliendId = cliendId;
+    public void setClient(User client) {
+        this.client = client;
     }
 
-    public String getStatus() {
+    public ReservationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ReservationStatus status) {
         this.status = status;
     }
-    
+
+    public List<ReservationGoods> getReservationGoods() {
+        return reservationGoods;
+    }
+
+    public void setReservationGoods(List<ReservationGoods> reservationGoods) {
+        this.reservationGoods = reservationGoods;
+    }
+
+        
 }

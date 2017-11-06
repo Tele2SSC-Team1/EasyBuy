@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -55,7 +56,20 @@ public class User implements Serializable{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    
+    @OneToOne
+    @JoinColumn(name = "current_reservation")
+    private Reservation currentReservation;
 
+    public Reservation getCurrentReservation() {
+        return currentReservation;
+    }
+
+    public void setCurrentReservation(Reservation currentReservation) {
+        this.currentReservation = currentReservation;
+    }
+
+    
     public Set<Role> getRoles() {
         return roles;
     }
