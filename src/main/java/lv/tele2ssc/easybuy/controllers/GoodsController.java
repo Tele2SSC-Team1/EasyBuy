@@ -31,20 +31,20 @@ public class GoodsController {
     @RequestMapping(path = "/new_item", method = RequestMethod.GET)
     public String newItem(Model model) {
         Goods goods = new Goods();
-        List<Category> categories = goodsService.findAllCategories();
+        List<Category> subCategories = goodsService.findAllSubCategories();
         model.addAttribute("goods", goods);
-        model.addAttribute("category", categories);
+        model.addAttribute("subCategory", subCategories);
         return "new_item";
     }
     
     @RequestMapping(path = "/edit_item", method = RequestMethod.GET)
     public String editItem(@RequestParam long goodsId, Model model) {
         Goods goods = goodsService.findGoodById(goodsId);
-        List<Category> categories = goodsService.findAllCategories();
-        Category goodCategory = goods.getCategory();
+        List<Category> subCategories = goodsService.findAllSubCategories();
+        Category goodSubCategory = goods.getCategory();
         model.addAttribute("goods", goods);
-        model.addAttribute("category", categories);
-        model.addAttribute("goodCategory", goodCategory);
+        model.addAttribute("subCategory", subCategories);
+        model.addAttribute("goodSubCategory", goodSubCategory);
         return "new_item";
     }
     

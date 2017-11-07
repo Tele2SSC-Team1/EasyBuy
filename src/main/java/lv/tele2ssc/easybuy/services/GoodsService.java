@@ -21,6 +21,10 @@ public class GoodsService {
         return categoryRepository.findCategories();
     }
     
+    public List<Category> findAllSubCategories() {
+        return categoryRepository.findSubCategories();
+    }
+    
     public Category findCategoryById(long categoryId) {
         return categoryRepository.findOne(categoryId);
     }
