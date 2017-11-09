@@ -24,9 +24,9 @@
                 <tr th:each="u : ${users}">
                     <label class="w3-text-grey">id</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('id')}">
-                        <p th:errors="*{title}"></p>
+                        <p th:errors="*{id}"></p>
                     </div>
-                    <input class="w3-input w3-border" type="text" th:field="*{title}"/>
+                    <input class="w3-input w3-border" type="text" th:field="*{id}"/>
                     <td th:text="${u.id}">User ID</td>
                     <td th:text="${u.fullName}">User fullname</td>
                     <td th:text="${u.phoneNum}">User phone</td>
@@ -36,7 +36,7 @@
                     <td> <a href="edit_one_role.html" th:href="@{/edit_one_role(userId=${u.id})}" class="w3-card-4">Edit</a></td>
                 </tr>
             </table>
-            </div>
+        </form>
             <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>

@@ -66,12 +66,12 @@
                     </div>
                     <input type="number" class="w3-input w3-border" th:field="*{amount}"/>
                 </div>
-                <div th:fragment="list(category)">
+                <div th:fragment="list(subCategory)">
                     <label>Category</label>
                     <select class="w3-select" name="categoryId" >
-                        <option value="" disabled="disabled" selected="selected" th:if="${goodCategory} == null">Choose your category</option>
-                        <option value="1" selected="selected" th:if="${goodCategory} != null" th:text="${goodCategory.categoryName} + ' | ' + ${goodCategory.subCategoryName}" th:value="${goodCategory.id}" name="categoryId">Option 1</option>
-                        <option value="2" th:if="${goodCategory} != ${c}" th:text="${c.categoryName} + ' | ' + ${c.subCategoryName}" th:value="${c.id}" name="categoryId" th:each="c : ${category}">Option 1</option>
+                        <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
+                        <option value="1" selected="selected" th:if="${goodSubCategory} != null" th:text="${goodSubCategory.getParent().categoryName} + ' | ' + ${goodSubCategory.categoryName}" th:value="${goodSubCategory.id}" name="categoryId">Option 1</option>
+                        <option value="2" th:each="c : ${subCategory}" th:if="${goodSubCategory} != ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="categoryId" >Option 1</option>
                     </select>
                 </div>
                 <div>

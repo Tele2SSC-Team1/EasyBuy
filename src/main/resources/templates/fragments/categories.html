@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Categories</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div th:fragment="list(categories)">
+            <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close &times;</button>
+
+
+            <div class="w3-dropdown-click" th:each="c : ${categories}">
+                <button class="w3-button" th:onclick="'myDropFunc('+${c.id}+')'">
+                    <span  th:text="${c.categoryName}"></span> <i class="fa fa-caret-down"></i>
+                </button>
+                <div th:id="${c.id}" class="w3-hide w3-bar-block w3-white w3-card" th:each="sc : ${c.subCategories}">
+                    <a href="#" class="w3-bar-item w3-button"><div th:text="${sc.categoryName}"></div></a>
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

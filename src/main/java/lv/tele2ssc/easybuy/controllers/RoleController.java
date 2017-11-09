@@ -52,7 +52,7 @@ public class RoleController {
         User user = userService.findUser(userId);
 //        List<Role> roles = roleService.findAllRoles();      
 //        model.addAttribute("roles", roles);
- //       model.addAttribute("users", users);
+        model.addAttribute("user", user);
 
         return "edit_one_role";
     }

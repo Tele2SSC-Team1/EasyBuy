@@ -18,16 +18,20 @@ public class GoodsService {
     private CategoryRepository categoryRepository;
     
     public List<Category> findAllCategories() {
-        return categoryRepository.findAll();
+        return categoryRepository.findCategories();
+    }
+    
+    public List<Category> findAllSubCategories() {
+        return categoryRepository.findSubCategories();
     }
     
     public Category findCategoryById(long categoryId) {
         return categoryRepository.findOne(categoryId);
     }
     
-    public List<Category> findByCategory(String categoryName) {
-        return categoryRepository.findByCategory(categoryName);
-    }
+    /*public List<Category> findByCategory(Long categoryId) {
+        return categoryRepository.findByCategory(categoryId);
+    }*/
     
     public void saveCategory(Category categories) {
         categoryRepository.save(categories);
