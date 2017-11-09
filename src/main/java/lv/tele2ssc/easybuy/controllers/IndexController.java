@@ -41,9 +41,11 @@ public class IndexController {
         @RequestMapping(method = RequestMethod.GET, path = "/category")
         public String page(@RequestParam Long categoryId,Model model) {
          
-        List<Goods> goods = goodsService.findGoodsById(categoryId);
+        Category category =goodsService.findCategoryById(categoryId);
+        List<Goods> goods = goodsService.findGoodsByCategory(category);
         List<Category> categories = goodsService.findAllCategories();
 
+        model.addAttribute("category",category);
         model.addAttribute("categories", categories);
         model.addAttribute("goods", goods);
         return "index";
