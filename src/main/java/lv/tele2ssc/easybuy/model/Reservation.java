@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,6 +25,7 @@ public class Reservation implements Serializable {
     private User client;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private ReservationStatus status;
     
     @Column

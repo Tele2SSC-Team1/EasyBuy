@@ -19,7 +19,7 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
    // @Query("SELECT g FROM Category g WHERE g.id like %?1%")
    // List<Category> findByCategory(Long Id);    
     
-    @Query(value = "SELECT g FROM Category g WHERE g.parent is not null")
+    @Query(value = "SELECT g FROM Category g WHERE g.parent is not null order by g.parent.categoryName, g.categoryName")
     List<Category> findSubCategories();
   
     

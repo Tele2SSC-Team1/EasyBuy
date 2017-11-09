@@ -70,8 +70,7 @@
                     <label>Category</label>
                     <select class="w3-select" name="categoryId" >
                         <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
-                        <option value="1" selected="selected" th:if="${goodSubCategory} != null" th:text="${goodSubCategory.getParent().categoryName} + ' | ' + ${goodSubCategory.categoryName}" th:value="${goodSubCategory.id}" name="categoryId">Option 1</option>
-                        <option value="2" th:each="c : ${subCategory}" th:if="${goodSubCategory} != ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="categoryId" >Option 1</option>
+                        <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="categoryId" >Option 1</option>
                     </select>
                 </div>
                 <div>

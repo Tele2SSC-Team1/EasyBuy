@@ -1,6 +1,8 @@
 package lv.tele2ssc.easybuy.controllers;
 
+import java.util.List;
 import lv.tele2ssc.easybuy.model.Goods;
+import lv.tele2ssc.easybuy.model.Reservation;
 import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.services.GoodsService;
 import lv.tele2ssc.easybuy.services.ReservationService;
@@ -33,7 +35,17 @@ public class ReservationController {
         
         reservationService.doReservation(user, goods, orderAmount);
         
-        return "redirect:/mybin";   
+        return "redirect:/mycart";   
+    }
+    
+    @RequestMapping(path = "/mycart", method = RequestMethod.GET)
+    public String mycart(Model model) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email);
+        Reservation reservation = currentUser.getCurrentReservation();
+        model.addAttribute("reservation", reservation);
+        
+        return "mycart";        
     }
     
 }

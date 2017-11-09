@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EasyBuy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script src="/js/menu.js"></script>
+</head>
+<body>
+<div th:replace="fragments/menu :: main"></div>
+    <div class="w3-container w3-margin">
+        <div class="w3-row-padding">
+            <h1 class="w3-col s12">List of items to purchase:</h1>
+        </div>
+        <div class="w3-row-padding">
+            <table class="w3-table w3-bordered" th:if="${reservation != null}">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                </tr>
+                <tr  th:each="g : ${reservation.getReservationGoods()}">
+                    
+                    <td style='vertical-align:middle'><a href="mybooks.html" th:href="@{/good(goodsId=${g.getGoods().id})}" th:text="${g.getGoods().name}">Name</a></td>
+                    <td style='vertical-align:middle'><a href="mybooks.html" th:href="@{/good(goodsId=${g.getGoods().id})}" th:text="${g.getGoods().price}">Price</a></td>
+                    <td><select class="w3-select" style="width: 100px" name="orderAmount" >
+                            <option value="1" th:each="i : ${#numbers.sequence( 1, __${g.getGoods().amount}__)}" th:text="${i}" th:value="${i}" name="orderAmount" th:selected="${ i }==${g.amount}">Option 1</option>
+                            
+                        </select></td>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+<th:block layout:replace="fragments/menu :: script"/>
+</body>
+</html>
