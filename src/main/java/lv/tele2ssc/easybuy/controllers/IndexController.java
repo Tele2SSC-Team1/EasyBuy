@@ -19,7 +19,7 @@ public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String page(Model model) {
-
+         
         List<Goods> goods = goodsService.findAllGoods();
         List<Category> categories = goodsService.findAllCategories();
 
@@ -35,6 +35,17 @@ public class IndexController {
 
         model.addAttribute("goods", list);
         model.addAttribute("term", term);
+        return "index";
+    }
+    
+        @RequestMapping(method = RequestMethod.GET, path = "/category")
+        public String page(@RequestParam Long categoryId,Model model) {
+         
+        List<Goods> goods = goodsService.findGoodsById(categoryId);
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
+        model.addAttribute("goods", goods);
         return "index";
     }
 

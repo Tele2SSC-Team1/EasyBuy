@@ -53,4 +53,8 @@ public class GoodsService {
         
         goodsRepository.save(goods);
     }
+
+    public List<Goods> findGoodsById(Long categoryId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
