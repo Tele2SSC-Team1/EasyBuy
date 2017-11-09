@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>EasyBuy</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
+    </head>
+    <body>
+        <div th:fragment="category">
+            <span th:if="${category.parent != null}" >
+                 <a th:href="@{/category(categoryId=${category.parent.id})}" class="w3-bar-item w3-button"><div th:text="${category.parent.categoryName}"></div></a>->
+            </span>
+            <a th:href="@{/category(categoryId=${category.id})}" class="w3-bar-item w3-button"><div th:text="${category.categoryName}"></div></a>
+             
+        </div>
+    </body>
+</html>

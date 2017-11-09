@@ -53,8 +53,13 @@ public class GoodsService {
         
         goodsRepository.save(goods);
     }
+    
+    public Category findOne(Long categoryId){
+        return categoryRepository.findOne(categoryId);
+    }
 
-    public List<Goods> findGoodsById(Long categoryId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Goods> findGoodsByCategory(Category category) {
+       
+        return goodsRepository.findByCategory(category);
     }
 }
