@@ -17,7 +17,7 @@
                 </div>
             </form>
 
-            <div th:replace="fragments/breadcrumbs :: category"></div>
+            <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
             <div th:replace="fragments/goods :: list(${goods})"></div>
 

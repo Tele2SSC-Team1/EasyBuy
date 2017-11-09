@@ -7,11 +7,11 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> 
     </head>
     <body>
-        <div th:fragment="category">
-            <span th:if="${category.parent != null}" >
-                 <a th:href="@{/category(categoryId=${category.parent.id})}" class="w3-bar-item w3-button"><div th:text="${category.parent.categoryName}"></div></a>->
+        <div th:fragment="category(cat)">
+            <span th:if="${cat.parent != null}" >
+                 <a th:href="@{/category(categoryId=${cat.parent.id})}" class="w3-bar-item w3-button"><div th:text="${cat.parent.categoryName}"></div></a>->
             </span>
-            <a th:href="@{/category(categoryId=${category.id})}" class="w3-bar-item w3-button"><div th:text="${category.categoryName}"></div></a>
+            <a th:href="@{/category(categoryId=${cat.id})}" class="w3-bar-item w3-button"><div th:text="${cat.categoryName}"></div></a>
              
         </div>
     </body>
