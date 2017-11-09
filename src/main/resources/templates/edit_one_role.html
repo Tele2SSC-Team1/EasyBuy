@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Bookshelf</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+        <div th:replace="fragments/menu :: main"></div>
+
+        <form action="/edit_one_role.html" th:action="@{/edit_one_role}" method="post" th:object="${user}">
+            <!--input type="hidden" th:field="*{id}"/-->
+            <table class="w3-table w3-bordered" >
+                <tr>
+                    <th style="width:50px">User ID</th>
+                    <th style="width:50px">User fullname</th>
+                    <th style="width:50px">User phone</th>
+                    <th style="width:50px">User email</th>
+                    <th style="width:50px">User password</th>
+                    <th style="width:50px">User role</th>
+                    <th style="width:50px">Edit</th>
+                </tr>
+                <tr th:each="u : ${users}">
+                    <label class="w3-text-grey">id</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('id')}">
+                        <p th:errors="*{title}"></p>
+                    </div>
+                    <input class="w3-input w3-border" type="text" th:field="*{title}"/>
+                    <td th:text="${u.id}">User ID</td>
+                    <td th:text="${u.fullName}">User fullname</td>
+                    <td th:text="${u.phoneNum}">User phone</td>
+                    <td th:text="${u.email}">User email</td>
+                    <td th:text="${u.password}">User password</td>
+                    <td><span th:each="r: ${u.roles}" th:text="${r.name}+'; '"></span></td>
+                    <td> <a href="edit_one_role.html" th:href="@{/edit_one_role(userId=${u.id})}" class="w3-card-4">Edit</a></td>
+                </tr>
+            </table>
+            </div>
+            <th:block layout:replace="fragments/menu :: script"/>
+    </body>
+</html>
