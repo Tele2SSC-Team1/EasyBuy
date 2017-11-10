@@ -51,7 +51,7 @@
                         </tr>
                         <tr>
                             <th>Price</th>
-                            <td th:text="${goods.price}">1989</td>
+                            <td th:text="${goods.price} + ' &euro;'">1989</td>
                         </tr>
                     </table>
                     <form action="mybooks.html" th:action="@{/order}" method="post">

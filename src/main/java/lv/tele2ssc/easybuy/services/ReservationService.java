@@ -62,5 +62,23 @@ public class ReservationService {
             reservationRepository.save(reservation);
         }
     }
+    
+    public ReservationGoods findReservationGoodById(long ReservationGoodsId) {
+        return reservationGoodsRepository.findOne(ReservationGoodsId);
+    }
+    
+    public Reservation findReservationById(long ReservationId) {
+        return reservationRepository.findOne(ReservationId);
+    }
+    
+    public void saveReservation(Reservation reservation) {
+        
+        reservationRepository.save(reservation);
+    }
+    
+    public void saveReservationGoods(ReservationGoods reservationGoods) {
+        
+        reservationGoodsRepository.save(reservationGoods);
+    }
    
 }

@@ -34,6 +34,9 @@ public class GoodsController {
         List<Category> subCategories = goodsService.findAllSubCategories();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
         return "new_item";
     }
     
@@ -45,6 +48,9 @@ public class GoodsController {
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
         model.addAttribute("goodSubCategory", goodSubCategory);
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
         return "new_item";
     }
     
@@ -78,6 +84,9 @@ public class GoodsController {
         Goods g1 = goodsService.findGoodById(goodsId);
         Category c1 = g1.getCategory();
         User u1=g1.getSeller();
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
         
         model.addAttribute("goods", g1);
         model.addAttribute("category", c1);
