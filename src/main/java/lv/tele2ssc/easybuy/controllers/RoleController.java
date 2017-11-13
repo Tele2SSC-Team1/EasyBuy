@@ -5,6 +5,7 @@
  */
 package lv.tele2ssc.easybuy.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
@@ -50,10 +51,59 @@ public class RoleController {
     public String edit_one_role(@RequestParam long userId, Model model) {
 
         User user = userService.findUser(userId);
-//        List<Role> roles = roleService.findAllRoles();      
-//        model.addAttribute("roles", roles);
+        List<Role> roles = roleService.findAllRoles();
+        
+        List<RoleAssigment> rolesAssigments = new ArrayList();
+        for (Role r:roles) {
+            RoleAssigment ra= new RoleAssigment ();
+            ra.setRole(r);
+            ra.setChecked(user.getRoles().contains(r));
+            rolesAssigments.add(ra);
+        }
+        
+        model.addAttribute("roles", roles);
         model.addAttribute("user", user);
+        model.addAttribute("rolesAssigments", rolesAssigments);
 
         return "edit_one_role";
     }
+
+    @RequestMapping(path = "/edit_one_role", method = RequestMethod.POST)
+    public String edit_one_role(@Valid User user, BindingResult bindingResult, Model model) {
+        // checks whether edited book has validation errors
+        if (bindingResult.hasErrors()) {
+            return "edit_one_role";
+        }
+        userService.save(user);
+
+        model.addAttribute("user", user);
+      
+        return "redirect:/edit_one_role?userId="+user.getId();
+    }
+
+    public static class RoleAssigment
+    {
+        Role role;
+        boolean checked;
+
+        public Role getRole() {
+            return role;
+        }
+
+        public void setRole(Role role) {
+            this.role = role;
+        }
+
+        public boolean isChecked() {
+            return checked;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
+        }
+        
+        
+        
+    }
+    
 }

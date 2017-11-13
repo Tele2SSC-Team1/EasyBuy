@@ -12,31 +12,89 @@
         <form action="/edit_one_role.html" th:action="@{/edit_one_role}" method="post" th:object="${user}">
             <!--input type="hidden" th:field="*{id}"/-->
             <table class="w3-table w3-bordered" >
-                <tr>
-                    <th style="width:50px">User ID</th>
+                <!--tr>
+                    
                     <th style="width:50px">User fullname</th>
                     <th style="width:50px">User phone</th>
                     <th style="width:50px">User email</th>
                     <th style="width:50px">User password</th>
                     <th style="width:50px">User role</th>
                     <th style="width:50px">Edit</th>
+                </tr-->
+                <tr>
+                    <td>
+                        <th style="width:50px">User ID</th>
+                    </td>
+                    <td>
+                        <div th:if="${#fields.hasErrors('id')}">
+                            <p th:errors="*{id}"></p>
+                        </div>
+                        <input type="text" th:field="*{id}"/>
+                    </td>
                 </tr>
-                <tr th:each="u : ${users}">
-                    <label class="w3-text-grey">id</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('id')}">
-                        <p th:errors="*{id}"></p>
+                <tr>
+                    <td>
+                        <th style="width:50px">Name</th>
+                    </td>
+                    <td>
+                        <div th:if="${#fields.hasErrors('fullName')}">
+                            <p th:errors="*{fullName}"></p>
+                        </div>
+                        <input type="text" th:field="*{fullName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th style="width:50px">Phone</th>
+                    </td>
+                    <td>
+                        <div th:if="${#fields.hasErrors('phoneNum')}">
+                            <p th:errors="*{phoneNum}"></p>
+                        </div>
+                        <input type="text" th:field="*{phoneNum}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th style="width:50px">Email</th>
+                    </td>
+                    <td>
+                        <div th:if="${#fields.hasErrors('email')}">
+                            <p th:errors="*{email}"></p>
+                        </div>
+                        <input type="text" th:field="*{email}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th style="width:50px">Password</th>
+                    </td>
+                    <td>
+                        <div th:if="${#fields.hasErrors('password')}">
+                            <p th:errors="*{password}"></p>
+                        </div>
+                        <input type="text" th:field="*{password}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <th style="width:50px">Roles</th>
+                    </td>
+                    <td>
+                        <!--input type="checkbox"  checked="checked" th:name="${r.name}" th:each="r: ${user.roles}" th:text="${r.name}"/-->
+                        <!--input type="checkbox"  checked="" th:if="${cr.name != r.name}" th:name="${r.name}" th:each="r: ${roles}" th:text="${r.name}" /-->
+                        <!--input type="checkbox"   checked=""  th:name="${rolesAssigments.getRole().getName()}" th:text="${rolesAssigments.getRole().getName()}" /-->
+                        <!--input type="checkbox"   th:checked="${ra.isChecked()}"  th:name="${ra.getRole().getName()}" th:text="${ra.getRole().getName()}" th:each="ra: ${rolesAssigments}" /-->
+                    </td>
+
+                </tr>
+                <td>
+                    <div class="w3-margin-top">
+                        <button class="w3-button w3-red">Save</button>
                     </div>
-                    <input class="w3-input w3-border" type="text" th:field="*{id}"/>
-                    <td th:text="${u.id}">User ID</td>
-                    <td th:text="${u.fullName}">User fullname</td>
-                    <td th:text="${u.phoneNum}">User phone</td>
-                    <td th:text="${u.email}">User email</td>
-                    <td th:text="${u.password}">User password</td>
-                    <td><span th:each="r: ${u.roles}" th:text="${r.name}+'; '"></span></td>
-                    <td> <a href="edit_one_role.html" th:href="@{/edit_one_role(userId=${u.id})}" class="w3-card-4">Edit</a></td>
-                </tr>
+                </td>
             </table>
         </form>
-            <th:block layout:replace="fragments/menu :: script"/>
+        <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>
