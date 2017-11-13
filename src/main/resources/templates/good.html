@@ -9,6 +9,7 @@
     <body>
     
         <div th:replace="fragments/menu :: main"></div>
+        <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
         <div class="w3-container w3-margin">
             <a hrem="#" th:href="@{/edit_item(goodsId=${goods.id})}">edit</a>
@@ -51,7 +52,7 @@
                         </tr>
                         <tr>
                             <th>Price</th>
-                            <td th:text="${goods.price}">1989</td>
+                            <td th:text="${goods.price} + ' &euro;'">1989</td>
                         </tr>
                     </table>
                     <form action="mybooks.html" th:action="@{/order}" method="post">

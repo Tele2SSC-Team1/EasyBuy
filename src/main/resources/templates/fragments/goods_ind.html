@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Goods</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div class="w3-row-padding" th:fragment="list(goods)">
+            <div class="w3-col s12" th:if="${category.getParent()==null}" th:each="subCategory : ${category.getSubCategories()}">
+                <i><h4 th:text="${subCategory.categoryName}" class="w3-text-red w3-margin-top">Sub Category</h4></i>
+                <div class="w3-col s12 m4 l3" th:if="${g.getCategory() == subCategory}" th:each="g : ${goods}">
+                    <a href="good.html" th:href="@{/good(goodsId=${g.id})}" class="w3-card-4" style="display:block">
+                        <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                        <div class="w3-container">
+                            <h3 th:text="${g.name}">La Geometria Mar</h3>
+                            <p th:text="${g.description}">Herodes Palomo Chavez</p>
+                        </div>
+                    </a>
+                </div>
+                <hr/>
+            </div>
+            
+            <div class="w3-col s12" th:if="${category.getParent()!=null}" th:each="subCategory : ${category}">
+                <i><h4 th:text="${subCategory.categoryName}" class="w3-text-red w3-margin-top">Sub Category</h4></i>
+                <div class="w3-col s12 m4 l3" th:if="${g.getCategory() == subCategory}" th:each="g : ${goods}">
+                    <a href="good.html" th:href="@{/good(goodsId=${g.id})}" class="w3-card-4" style="display:block">
+                        <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                        <div class="w3-container">
+                            <h3 th:text="${g.name}">La Geometria Mar</h3>
+                            <p th:text="${g.description}">Herodes Palomo Chavez</p>
+                        </div>
+                    </a>
+                </div>
+                <hr/>
+            </div>
+        </div>
+    </body>
+</html>

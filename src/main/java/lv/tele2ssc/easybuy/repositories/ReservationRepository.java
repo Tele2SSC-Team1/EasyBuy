@@ -13,7 +13,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
     List<Reservation> findAllByClient(User client);    
     
     @Query("SELECT r FROM Reservation r WHERE "
-            + " r.status = 'CLOSED' AND r.client = ?2")
-    List<Reservation> findClosedRervations(User user);
+            + " r.status = 'CLOSED' AND r.client = ?1")
+    List<Reservation> findClosedReservations(User user);
     
 }

@@ -10,12 +10,16 @@ import lv.tele2ssc.easybuy.model.ReservationStatus;
 import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.repositories.ReservationGoodsRepository;
 import lv.tele2ssc.easybuy.repositories.ReservationRepository;
+import lv.tele2ssc.easybuy.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ReservationService {
  
+    @Autowired
+    private UserRepository userRepository;
+    
     @Autowired
     private ReservationRepository reservationRepository;
     
@@ -27,6 +31,16 @@ public class ReservationService {
     }
     
     public void doReservation(User user, Goods goods, Integer orderAmount) {
+        
+        if (user.getCurrentReservation()!=null) {
+            for (ReservationGoods rg : user.getCurrentReservation().getReservationGoods()) {
+                if (rg.getGoods()==goods) {
+                    rg.setAmount(orderAmount);
+                    reservationGoodsRepository.save(rg);
+                    return;
+                }
+            }     
+        }
         
         ReservationGoods reservationGoods = new ReservationGoods();
         reservationGoods.setGoods(goods);
@@ -40,11 +54,31 @@ public class ReservationService {
             reservation.setCreated(new Timestamp(System.currentTimeMillis()));
             reservation.setStatus(ReservationStatus.NEW);
             reservationRepository.save(reservation);
+            user.setCurrentReservation(reservation);
+            userRepository.save(user);
         } else {
             Reservation reservation = user.getCurrentReservation();
             reservation.getReservationGoods().add(reservationGoods);
             reservationRepository.save(reservation);
         }
+    }
+    
+    public ReservationGoods findReservationGoodById(long ReservationGoodsId) {
+        return reservationGoodsRepository.findOne(ReservationGoodsId);
+    }
+    
+    public Reservation findReservationById(long ReservationId) {
+        return reservationRepository.findOne(ReservationId);
+    }
+    
+    public void saveReservation(Reservation reservation) {
+        
+        reservationRepository.save(reservation);
+    }
+    
+    public void saveReservationGoods(ReservationGoods reservationGoods) {
+        
+        reservationGoodsRepository.save(reservationGoods);
     }
    
 }

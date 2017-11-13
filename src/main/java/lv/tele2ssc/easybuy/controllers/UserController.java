@@ -3,9 +3,10 @@ package lv.tele2ssc.easybuy.controllers;
 import lv.tele2ssc.easybuy.services.UserService;
 import java.util.Objects;
 import javax.validation.Valid;
-import lv.tele2ssc.easybuy.model.Goods;
+import lv.tele2ssc.easybuy.model.Reservation;
+import lv.tele2ssc.easybuy.model.ReservationStatus;
 import lv.tele2ssc.easybuy.model.User;
-import lv.tele2ssc.easybuy.services.GoodsService;
+import lv.tele2ssc.easybuy.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
@@ -22,11 +22,28 @@ public class UserController {
     private UserService userService;  
     
     @Autowired
-    private GoodsService goodsService;
+    private ReservationService reservationService;
     
     @RequestMapping(path = "/login", method = RequestMethod.GET)
     public String login(Model model) {
         return "login";
+    }
+    
+    @RequestMapping(path = "/index", method = RequestMethod.GET)
+    public String index(Model model) {
+        return "redirect:/";
+    }
+    
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public String logout(Model model) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByEmail(email);
+        Reservation currentReservation = user.getCurrentReservation();
+        currentReservation.setStatus(ReservationStatus.CLOSED);
+        user.setCurrentReservation(null);
+        reservationService.saveReservation(currentReservation);
+        userService.save(user);
+        return "logout";
     }
     
     @RequestMapping(path = "/profile", method = RequestMethod.GET)
@@ -34,7 +51,7 @@ public class UserController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
-        return "register";
+        return "register"; 
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)

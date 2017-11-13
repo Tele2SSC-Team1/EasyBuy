@@ -19,7 +19,7 @@ public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String page(Model model) {
-
+         
         List<Goods> goods = goodsService.findAllGoods();
         List<Category> categories = goodsService.findAllCategories();
 
@@ -32,9 +32,34 @@ public class IndexController {
     public String search(@RequestParam String term, Model model) {
 
         List<Goods> list = goodsService.findByTerm(term);
+        List<Category> categories = goodsService.findAllCategories();
 
+        model.addAttribute("categories", categories);
         model.addAttribute("goods", list);
         model.addAttribute("term", term);
+        return "index";
+    }
+    
+        @RequestMapping(method = RequestMethod.GET, path = "/category")
+        public String page(@RequestParam Long categoryId,Model model) {
+         
+        Category category =goodsService.findCategoryById(categoryId);
+        List<Goods> goods = goodsService.findGoodsByCategory(category);
+        List<Category> categories = goodsService.findAllCategories();
+        
+        if (category.getParent() == null) {
+            List<Category> subCategories = category.getSubCategories();
+            for (Category c : subCategories) {
+                List<Goods> subGoods = goodsService.findGoodsByCategory(c);
+                for (Goods g : subGoods) {
+                    goods.add(g);
+                }
+            }
+        }
+
+        model.addAttribute("category",category);
+        model.addAttribute("categories", categories);
+        model.addAttribute("goods", goods);
         return "index";
     }
 

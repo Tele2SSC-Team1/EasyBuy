@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>EasyBuy</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <script src="/js/menu.js"></script>
-</head>
-<body>
-<div th:replace="fragments/menu :: main"></div>
-    <div class="w3-container w3-margin">
-        <form class="w3-row-padding" action="/" method="post">
-            <button class="w3-button w3-border w3-green w3-right w3-margin-left" style="width:100px">Search</button>
-            <div class="w3-rest">
-                <input type="text" class="w3-input w3-border" name="term" th:value="${term}"/>
-            </div>
-        </form>
+    <head>
+        <title>EasyBuy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <script src="/js/menu.js"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/menu :: main"></div>
+        <div class="w3-container w3-margin">
+            <form class="w3-row-padding" action="/" method="post">
+                <button class="w3-button w3-border w3-green w3-right w3-margin-left" style="width:100px">Search</button>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input w3-border" name="term" th:value="${term}"/>
+                </div>
+            </form>
 
-        <div th:replace="fragments/goods :: list(${goods})"></div>
-        
-    </div>
+            <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
-<th:block layout:replace="fragments/menu :: script"/>
-</body>
+            <div th:if="${category==null}"><div th:replace="fragments/goods :: list(${goods})"></div></div>
+            <div th:if="${category!=null}"><div th:replace="fragments/goods_ind :: list(${goods})"></div></div>
+
+        </div>
+
+        <th:block layout:replace="fragments/menu :: script"/>
+    </body>
 </html>

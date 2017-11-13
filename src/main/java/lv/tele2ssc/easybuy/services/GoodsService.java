@@ -53,4 +53,13 @@ public class GoodsService {
         
         goodsRepository.save(goods);
     }
+    
+    public Category findOne(Long categoryId){
+        return categoryRepository.findOne(categoryId);
+    }
+
+    public List<Goods> findGoodsByCategory(Category category) {
+       
+        return goodsRepository.findByCategory(category);
+    }
 }
