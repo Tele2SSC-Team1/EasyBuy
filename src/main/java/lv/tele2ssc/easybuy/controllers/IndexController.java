@@ -44,6 +44,16 @@ public class IndexController {
         Category category =goodsService.findCategoryById(categoryId);
         List<Goods> goods = goodsService.findGoodsByCategory(category);
         List<Category> categories = goodsService.findAllCategories();
+        
+        if (category.getParent() == null) {
+            List<Category> subCategories = category.getSubCategories();
+            for (Category c : subCategories) {
+                List<Goods> subGoods = goodsService.findGoodsByCategory(c);
+                for (Goods g : subGoods) {
+                    goods.add(g);
+                }
+            }
+        }
 
         model.addAttribute("category",category);
         model.addAttribute("categories", categories);

@@ -36,8 +36,7 @@ public class ReservationController {
         User user = userService.findByEmail(email);
         
         reservationService.doReservation(user, goods, orderAmount);
-        
-        return "redirect:/mycart";   
+        return "redirect:/good?goodsId="+goodsId;   
     }
     
     @RequestMapping(path = "/deleteFromReservation", method = RequestMethod.POST)
