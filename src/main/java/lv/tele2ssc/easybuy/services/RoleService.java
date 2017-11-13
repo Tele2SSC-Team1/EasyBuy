@@ -36,4 +36,8 @@ public class RoleService {
         return user.getRoles();
     }
 
+    public void saveRole(Set<Role> roles, User user) {
+        user.setRoles(roles);
+    }
+
 }

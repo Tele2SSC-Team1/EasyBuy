@@ -8,6 +8,7 @@ package lv.tele2ssc.easybuy.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.Valid;
 import lv.tele2ssc.easybuy.model.Role;
 import lv.tele2ssc.easybuy.model.User;
@@ -72,10 +73,11 @@ public class RoleController {
     public String edit_one_role(@Valid User user, BindingResult bindingResult, Model model) {
         // checks whether edited book has validation errors
         if (bindingResult.hasErrors()) {
-            return "edit_one_role";
+            return "edit_one_role"; 
         }
-        userService.save(user);
-
+        userService.saveUser(user);
+        //roleService.saveRole(roles, user);
+        
         model.addAttribute("user", user);
       
         return "redirect:/edit_one_role?userId="+user.getId();
@@ -85,6 +87,7 @@ public class RoleController {
     {
         Role role;
         boolean checked;
+        
 
         public Role getRole() {
             return role;
