@@ -87,7 +87,7 @@ public class RoleController {
     {
         Role role;
         boolean checked;
-        
+        User user;
 
         public Role getRole() {
             return role;
