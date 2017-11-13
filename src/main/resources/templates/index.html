@@ -19,7 +19,8 @@
 
             <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
-            <div th:replace="fragments/goods :: list(${goods})"></div>
+            <div th:if="${category==null}"><div th:replace="fragments/goods :: list(${goods})"></div></div>
+            <div th:if="${category!=null}"><div th:replace="fragments/goods_ind :: list(${goods})"></div></div>
 
         </div>
 

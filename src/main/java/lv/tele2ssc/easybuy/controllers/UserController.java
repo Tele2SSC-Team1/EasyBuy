@@ -29,6 +29,11 @@ public class UserController {
         return "login";
     }
     
+    @RequestMapping(path = "/index", method = RequestMethod.GET)
+    public String index(Model model) {
+        return "redirect:/";
+    }
+    
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(Model model) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -46,7 +51,7 @@ public class UserController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
-        return "redirect:/"; 
+        return "register"; 
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)

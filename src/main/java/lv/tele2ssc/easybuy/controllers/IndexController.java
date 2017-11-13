@@ -32,7 +32,9 @@ public class IndexController {
     public String search(@RequestParam String term, Model model) {
 
         List<Goods> list = goodsService.findByTerm(term);
+        List<Category> categories = goodsService.findAllCategories();
 
+        model.addAttribute("categories", categories);
         model.addAttribute("goods", list);
         model.addAttribute("term", term);
         return "index";
