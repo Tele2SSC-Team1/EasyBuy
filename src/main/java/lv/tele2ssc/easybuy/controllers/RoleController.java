@@ -5,7 +5,9 @@
  */
 package lv.tele2ssc.easybuy.controllers;
 
+import lv.tele2ssc.easybuy.model.RoleAssigment;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -61,10 +63,10 @@ public class RoleController {
             ra.setChecked(user.getRoles().contains(r));
             rolesAssigments.add(ra);
         }
+        user.setRoleAssigments(rolesAssigments);
         
         model.addAttribute("roles", roles);
         model.addAttribute("user", user);
-        model.addAttribute("rolesAssigments", rolesAssigments);
 
         return "edit_one_role";
     }
@@ -75,38 +77,24 @@ public class RoleController {
         if (bindingResult.hasErrors()) {
             return "edit_one_role"; 
         }
-        userService.saveUser(user);
+     
         //roleService.saveRole(roles, user);
         
         model.addAttribute("user", user);
-      
+        
+        Set<Role> roles = new HashSet();
+        for (RoleAssigment ra:user.getRoleAssigments()) {
+            if (!ra.isChecked()) {
+                continue;
+            }
+            long roleId = ra.getRoleId();
+            Role role = roleService.getById(roleId);
+            roles.add(role);
+        }
+        user.setRoles(roles);
+         userService.saveUser(user);
         return "redirect:/edit_one_role?userId="+user.getId();
     }
 
-    public static class RoleAssigment
-    {
-        Role role;
-        boolean checked;
-        User user;
-
-        public Role getRole() {
-            return role;
-        }
-
-        public void setRole(Role role) {
-            this.role = role;
-        }
-
-        public boolean isChecked() {
-            return checked;
-        }
-
-        public void setChecked(boolean checked) {
-            this.checked = checked;
-        }
-        
-        
-        
-    }
     
 }

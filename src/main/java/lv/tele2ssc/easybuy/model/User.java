@@ -1,6 +1,7 @@
 package lv.tele2ssc.easybuy.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,11 +57,13 @@ public class User implements Serializable{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    
+   
     @OneToOne
     @JoinColumn(name = "current_reservation")
     private Reservation currentReservation;
-
+    
+    @Transient
+    private List<RoleAssigment> roleAssigments;
     public Reservation getCurrentReservation() {
         return currentReservation;
     }
@@ -117,6 +120,14 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<RoleAssigment> getRoleAssigments() {
+        return roleAssigments;
+    }
+
+    public void setRoleAssigments(List<RoleAssigment> roleAssigments) {
+        this.roleAssigments = roleAssigments;
     }
     
     

@@ -84,9 +84,14 @@
                         <!--input type="checkbox"  checked="checked" th:name="${r.name}" th:each="r: ${user.roles}" th:text="${r.name}"/-->
                         <!--input type="checkbox"  checked="" th:if="${cr.name != r.name}" th:name="${r.name}" th:each="r: ${roles}" th:text="${r.name}" /-->
                         <!--input type="checkbox"   checked=""  th:name="${rolesAssigments.getRole().getName()}" th:text="${rolesAssigments.getRole().getName()}" /-->
+                        <div th:each="ra, stat : *{roleAssigments}">
 
-                        <input type="checkbox"   th:checked="${ra.isChecked()}"  th:name="${ra.getRole().getName()}" th:text="${ra.getRole().getName()}" th:each="ra: ${rolesAssigments}" th:value="${id}" />
-
+                            <input type="checkbox" th:field="*{roleAssigments[__${stat.index}__].checked}" />
+                             <input type="hidden" th:field="*{roleAssigments[__${stat.index}__].roleId}" />
+                            <span th:text="*{roleAssigments[__${stat.index}__].role.name}"/>
+                            <!--                        <input type="checkbox"   th:checked="${ra.isChecked()}"  th:name="${ra.getRole().getName()}" 
+                                                           th:text="${ra.getRole().getName()}" th:each="ra: ${rolesAssigments}" th:field="*{ra}" />-->
+                        </div>
                     </td>
 
                 </tr>

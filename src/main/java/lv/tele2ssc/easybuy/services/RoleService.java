@@ -40,4 +40,8 @@ public class RoleService {
         user.setRoles(roles);
     }
 
+    public Role getById(long roleId) {
+        return roleRepository.findOne(roleId);
+    }
+
 }
