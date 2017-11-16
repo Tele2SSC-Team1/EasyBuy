@@ -69,6 +69,9 @@ public class GoodsController {
         }      
         User seller = userService.findUser(userId);
         goods.setSeller(seller);
+        if (goods.getImgSrc() == null || goods.getImgSrc() == "") {
+            goods.setImgSrc("http://via.placeholder.com/300x300");
+        }
         goodsService.saveGoods(goods);
         
         Category goodSubCategory = goods.getCategory();

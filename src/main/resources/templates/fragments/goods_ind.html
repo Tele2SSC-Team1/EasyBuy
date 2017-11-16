@@ -12,7 +12,7 @@
                 <i><h4 th:text="${subCategory.categoryName}" class="w3-text-red w3-margin-top">Sub Category</h4></i>
                 <div class="w3-col s12 m4 l3" th:if="${g.getCategory() == subCategory}" th:each="g : ${goods}">
                     <a href="good.html" th:href="@{/good(goodsId=${g.id})}" class="w3-card-4" style="display:block">
-                        <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                        <img src="http://via.placeholder.com/300x300" th:src="${g.imgSrc}" style="width:100%;max-height: 300px;object-fit: contain" class="w3-margin-top"/>
                         <div class="w3-container">
                             <h3 th:text="${g.name}">La Geometria Mar</h3>
                             <p th:text="${g.description}">Herodes Palomo Chavez</p>
@@ -26,7 +26,7 @@
                 <i><h4 th:text="${subCategory.categoryName}" class="w3-text-red w3-margin-top">Sub Category</h4></i>
                 <div class="w3-col s12 m4 l3" th:if="${g.getCategory() == subCategory}" th:each="g : ${goods}">
                     <a href="good.html" th:href="@{/good(goodsId=${g.id})}" class="w3-card-4" style="display:block">
-                        <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                        <img src="http://via.placeholder.com/300x300" th:src="${g.imgSrc}" style="width:100%;max-height: 300px;object-fit: contain" class="w3-margin-top"/>
                         <div class="w3-container">
                             <h3 th:text="${g.name}">La Geometria Mar</h3>
                             <p th:text="${g.description}">Herodes Palomo Chavez</p>

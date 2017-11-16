@@ -48,6 +48,17 @@ public class Goods implements Serializable {
     
     @Column(nullable = false)
     private int amount;
+    
+    @Column(name = "img_src")
+    private String imgSrc;
+
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
+    }
       
 
     public Long getId() {
