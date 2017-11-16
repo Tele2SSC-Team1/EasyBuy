@@ -30,14 +30,13 @@
           <div class="w3-bar w3-black" >
                   <button class="w3-bar-item w3-button w3-white" onclick="w3_open()">&#9776;</button>
                   <a href="/" class="w3-bar-item w3-button">Home</a>
-                  <a href="#" class="w3-bar-item w3-button">Manage</a>
                   <a href="/index" class="w3-bar-item w3-button w3-right" th:if="${currentUser == null}">Log in</a>
                   <div class="w3-dropdown-click w3-right" th:if="${currentUser != null}" >
                     <button onclick="accountProperties()" class="w3-button w3-black" th:text="${currentUser.fullName}">User Name</button>
                     <div id="accountDropDown" class="w3-dropdown-content w3-bar-block w3-border">
-                      <a href="/new_item" class="w3-bar-item w3-button">Add</a>
+                      <a href="/new_item" class="w3-bar-item w3-button" th:if="${currentUser.isManager()}">Add</a>
                       <a href="/profile" class="w3-bar-item w3-button">Account</a>
-                      <a href="/edit_role" class="w3-bar-item w3-button">Roles</a>
+                      <a href="/edit_role" class="w3-bar-item w3-button" th:if="${currentUser.isAdmin()}">Roles</a>
                       <a href="/logout" th:href="@{/logout}" class="w3-bar-item w3-button">Log out</a>
                     </div>
                   </div>

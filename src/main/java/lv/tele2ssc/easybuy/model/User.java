@@ -130,5 +130,22 @@ public class User implements Serializable{
         this.roleAssigments = roleAssigments;
     }
     
+    public boolean isManager() {
+        for (Role role : this.getRoles()) {
+            if (role.getName().equals("admin") || role.getName().equals("seller")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isAdmin() {
+        for (Role role : this.getRoles()) {
+            if (role.getName().equals("admin")) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }

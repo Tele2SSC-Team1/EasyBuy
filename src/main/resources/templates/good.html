@@ -12,7 +12,7 @@
         <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
         <div class="w3-container w3-margin">
-            <a hrem="#" th:href="@{/edit_item(goodsId=${goods.id})}">edit</a>
+            <a hrem="#" th:href="@{/edit_item(goodsId=${goods.id})}" th:if="${currentUser==goods.getSeller() || currentUser.isAdmin()}">edit</a>
             <div class="w3-row-padding">
                 <h1 class="w3-col s12" th:text="${goods.name}">La Geometria Mar</h1>
             </div>
