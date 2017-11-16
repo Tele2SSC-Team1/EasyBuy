@@ -9,17 +9,20 @@ import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.services.GoodsService;
 import lv.tele2ssc.easybuy.services.ReservationService;
 import lv.tele2ssc.easybuy.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ReservationController {
-    
+    private final static Logger logger = LoggerFactory.getLogger(ReservationController.class);
     @Autowired
     private UserService userService;  
     
@@ -30,7 +33,8 @@ public class ReservationController {
     private ReservationService reservationService; 
     
     @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public String order(@RequestParam long goodsId, @RequestParam int orderAmount, Model model) {
+    public String order(@RequestParam long goodsId, @RequestParam(defaultValue = "1", required=false) int orderAmount, Model model) {
+        
         Goods goods = goodsService.findGoodById(goodsId);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
@@ -50,11 +54,12 @@ public class ReservationController {
     }
     
     @RequestMapping(path = "/changeAmount", method = RequestMethod.POST)
-    public String changeAmount(@RequestParam long reservationId, @RequestParam int orderAmount, Model model) {
-        Reservation reservation = reservationService.findReservationById(reservationId);
+    public String changeAmount(@ModelAttribute Reservation reservation, Model model) {
+        logger.debug("change amount {}", reservation);
         for (ReservationGoods rg : reservation.getReservationGoods()) {
-            rg.setAmount(orderAmount);
-            reservationService.saveReservationGoods(rg);;
+            ReservationGoods rgg = reservationService.findReservationGoodById(rg.getId());
+            rgg.setAmount(rg.getAmount());
+            reservationService.saveReservationGoods(rgg);
         }       
         
         return "redirect:/mycart";   

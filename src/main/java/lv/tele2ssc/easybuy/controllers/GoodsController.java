@@ -55,28 +55,44 @@ public class GoodsController {
     }
     
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam long userId,@RequestParam long categoryId, @Valid Goods goods, BindingResult bindingResult, Model model) {
-        
+    public String newItem(@RequestParam long userId,@RequestParam(defaultValue = "0", required=false) long category, @Valid Goods goods, BindingResult bindingResult, Model model) {
+        validateCategory(category, bindingResult);
+        validateAmount(goods.getAmount(), bindingResult);
+        validatePrice(goods.getPrice(), bindingResult);
         // validation isn't passed return back to registration form
         if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
-        boolean creating = goods.getId() == null;
-        
+            List<Category> subCategories = goodsService.findAllSubCategories();
+            Category goodSubCategory = goods.getCategory();
+            model.addAttribute("goodSubCategory", goodSubCategory);
+            model.addAttribute("subCategory", subCategories);
+            return "new_item";
+        }      
         User seller = userService.findUser(userId);
         goods.setSeller(seller);
-        goods.setCategory(goodsService.findCategoryById(categoryId));
         goodsService.saveGoods(goods);
         
+        Category goodSubCategory = goods.getCategory();
+        model.addAttribute("goodSubCategory", goodSubCategory);
         
-        if (creating) {
-            model.addAttribute("successMessage", "You are successfuly add new item");
-        } else {
-            model.addAttribute("successMessage", "Item is updated");
+        return "redirect:/good?goodsId="+goods.getId();
+    }
+    
+    private void validateCategory(Long category, BindingResult bindingResult) {
+        if (category == 0L) {
+            bindingResult.rejectValue("category", "missed_category", "Please choose category");
         }
-        
-        return "new_item";
+    }
+    
+    private void validateAmount(Integer amount, BindingResult bindingResult) {
+        if (amount < 1) {
+            bindingResult.rejectValue("amount", "incorrect_amount", "Please choose amount");
+        }
+    }
+    
+    private void validatePrice(Float price, BindingResult bindingResult) {
+        if (price <= 0) {
+            bindingResult.rejectValue("price", "incorrect_price", "Please choose price");
+        }
     }
     
     @RequestMapping(path = "/good", method = RequestMethod.GET)

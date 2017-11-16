@@ -68,9 +68,12 @@
                 </div>
                 <div th:fragment="list(subCategory)">
                     <label>Category</label>
-                    <select class="w3-select" name="categoryId" >
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('category')}">
+                        <p th:errors="*{category}"></p>
+                    </div>
+                    <select class="w3-select" name="category" >
                         <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
-                        <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="categoryId" >Option 1</option>
+                        <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="category" >Option 1</option>
                     </select>
                 </div>
                 <div>

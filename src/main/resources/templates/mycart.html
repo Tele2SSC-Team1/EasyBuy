@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="/js/menu.js"></script>
+     <script type="text/javascript" >
+        function deleteClick(id1, id2){
+
+            document.getElementById('reservationGoodsId').value = id1;
+            document.getElementById('reservationId').value = id2;
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <div th:replace="fragments/menu :: main"></div>
@@ -14,38 +23,47 @@
             <h1 class="w3-col s12">List of items to purchase:</h1>
         </div>
         <div class="w3-row-padding" th:if="${reservation != null}">
-            <form action="mybooks.html" th:action="@{/changeAmount}" method="post">
+            <div th:if="${!reservation.getReservationGoods().isEmpty()}">
+            <form action="mybooks.html" th:object="${reservation}" th:action="@{/changeAmount}" method="post">
             <table class="w3-table w3-bordered">
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Amount</th>
                 </tr>
-                <tr  th:each="g : ${reservation.getReservationGoods()}">
+                <tr  th:each="g, stat : ${reservation.getReservationGoods()}">
                     
                     <td style='vertical-align:middle'><a href="mybooks.html" th:href="@{/good(goodsId=${g.getGoods().id})}" th:text="${g.getGoods().name}">Name</a></td>
                     <td style='vertical-align:middle' th:text="${g.getGoods().price} + ' &euro;'">Price</td>
                     <td>
-                            <select class="w3-select" style="width: 100px" name="orderAmount" >
-                            <option value="1" th:each="i : ${#numbers.sequence( 1, __${g.getGoods().amount}__)}" th:text="${i}" th:value="${i}" name="orderAmount" th:selected="${ i }==${g.amount}">Option 1</option>
+                            <select class="w3-select" style="width: 100px" th:name="|reservationGoods[${stat.index}].amount|" >
+                            <option value="1" th:each="i : ${#numbers.sequence( 1, __${g.getGoods().amount}__)}" th:text="${i}" th:value="${i}" th:selected="${ i }==${g.amount}">Option 1</option>
                             </select>
                             
-                        
+                            <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].id}" />
+                            <input type="hidden" th:field="*{id}" />
                     </td>
-                    <td style='vertical-align:middle'>
-                        <form action="mybooks.html" th:action="@{/deleteFromReservation}" method="post">
+                    <td><!--<form action="mybooks.html" th:action="@{/deleteFromReservation}" method="post">
                             <input type="hidden" name="reservationGoodsId" th:value="${g.id}"/>
                             <input type="hidden" name="reservationId" th:value="${reservation.id}"/>
-                            <button class="w3-button w3-red w3-margin-left">Delete</button> 
-                        </form></td>
+                            <a href="javascript:void(0)" class="w3-button w3-red w3-margin-left" type="Submit" th:value="@{delete-{id}-{id2}(id=${g.id},id2=${reservation.id})}" th:onclick="'deleteClick(' + ${g.id} + ',' + ${reservation.id}+')'" form="deleteForm">Delete</a> -->
+                            <button class="w3-button w3-red w3-margin-left" type="Submit" th:onclick="'deleteClick(' + ${g.id} + ',' + ${reservation.id}+')'" form="deleteForm">Delete</button> 
+                        <!--</form>-->
+                    </td>
                 </tr>
             </table>
             <input type="hidden" name="reservationId" th:value="${reservation.id}"/>
             <button class="w3-button w3-green w3-right">Save</button> 
         </form>
         </div>
-        <br/>
+        <br />
+         <form id="deleteForm" action="mybooks.html" th:action="@{/deleteFromReservation}" method="post">
+            <input id="reservationGoodsId" type="hidden" name="reservationGoodsId"/>
+            <input id="reservationId" type="hidden" name="reservationId"/>
+        </form>
         <div class="w3-right w3-margin" >Total price: <b th:text="${totalPrice + ' &euro;'}">100 </b></div>
+        </div>
+    
     </div>
 <th:block layout:replace="fragments/menu :: script"/>
 </body>
