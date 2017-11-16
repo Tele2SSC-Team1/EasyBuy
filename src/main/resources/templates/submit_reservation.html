@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>EasyBuy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+
+        <div th:replace="fragments/menu :: main"></div>
+
+        <div class="w3-container w3-margin">
+            <div th:if="${successMessage != null}" class="w3-panel w3-green">
+                <p th:text="${successMessage}"/>
+            </div>
+            <form class="w3-row-padding" action="#" th:action="@{/close_reservation}" method="post" th:object="${user}">
+                <input type="hidden" th:field="*{id}" th:if="${user.id != null}"/>
+                <div>
+                    <label>Full name</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('fullName')}">
+                        <p th:errors="*{fullName}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{fullName}" disabled="disabled"/>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('email')}">
+                        <p th:errors="*{email}"></p>
+                    </div>
+                    <input type="email" class="w3-input w3-border" th:field="*{email}" disabled="disabled"/>
+                </div>
+                <div>
+                    <label>Phone Number</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('phoneNum')}">
+                        <p th:errors="*{phoneNum}"></p>
+                    </div>
+                    <input type="number" class="w3-input w3-border" th:field="*{phoneNum}"/>
+                </div>
+                <div>
+                    <label>Address</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('address')}">
+                        <p th:errors="*{address}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{address}"/>
+                </div>
+                <br />
+                <div>
+                    <label>Payment after delivery by: </label>
+                    <p><input class="w3-radio" type="radio" name="payment" value="card" checked="checked"/>
+                    <label>Card</label></p>
+
+                    <p><input class="w3-radio" type="radio" name="payment" value="cash"/>
+                    <label>Cash</label></p>
+                </div>
+                <div>
+                    <button class="w3-button w3-black">Buy</button>
+                </div>
+            </form>
+        </div>
+<th:block layout:replace="fragments/menu :: script"/>
+    </body>
+</html>

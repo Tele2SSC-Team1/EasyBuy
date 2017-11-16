@@ -87,4 +87,18 @@ public class ReservationController {
         return "mycart";        
     }
     
+    @RequestMapping(path = "/submit_reservation", method = RequestMethod.GET)
+    public String close_reservation(Model model) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email);
+        
+        model.addAttribute("user", currentUser);
+        
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
+        
+        return "submit_reservation";        
+    }
+    
 }

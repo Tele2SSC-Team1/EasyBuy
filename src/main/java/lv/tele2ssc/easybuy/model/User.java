@@ -32,6 +32,9 @@ public class User implements Serializable{
     
     @Column(name = "phone_num")
     private Integer phoneNum;
+    
+    @Column
+    private String address;
    
     @Column(name = "email")
     @NotEmpty
@@ -66,6 +69,14 @@ public class User implements Serializable{
     private List<RoleAssigment> roleAssigments;
     public Reservation getCurrentReservation() {
         return currentReservation;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setCurrentReservation(Reservation currentReservation) {

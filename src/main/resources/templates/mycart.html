@@ -52,16 +52,25 @@
                     </td>
                 </tr>
             </table>
+                
             <input type="hidden" name="reservationId" th:value="${reservation.id}"/>
-            <button class="w3-button w3-green w3-right">Save</button> 
+            <button class="w3-button w3-green w3-right w3-margin">Save</button> 
+            
         </form>
         </div>
-        <br />
+        <br /><br /><br /><br /><br />
+        
          <form id="deleteForm" action="mybooks.html" th:action="@{/deleteFromReservation}" method="post">
             <input id="reservationGoodsId" type="hidden" name="reservationGoodsId"/>
             <input id="reservationId" type="hidden" name="reservationId"/>
         </form>
-        <div class="w3-right w3-margin" >Total price: <b th:text="${totalPrice + ' &euro;'}">100 </b></div>
+        
+        <form action="mybooks.html" th:action="@{/submit_reservation}" method="get" class="w3-margin-top w3-right">
+            <div class="w3-margin" >Total price: <b th:text="${totalPrice + ' &euro;'}">100 </b>   <button class="w3-button w3-black w3-margin-left">Next</button> </div>
+            
+            
+        </form>
+        
         </div>
     
     </div>
