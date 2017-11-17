@@ -31,6 +31,13 @@
                     <input type="email" class="w3-input w3-border" th:field="*{email}"/>
                 </div>
                 <div>
+                    <label>Address</label>
+                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('address')}">
+                        <p th:errors="*{address}"></p>
+                    </div>
+                    <input type="text" class="w3-input w3-border" th:field="*{address}"/>
+                </div>
+                <div>
                     <label>Phone Number</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('phoneNum')}">
                         <p th:errors="*{phoneNum}"></p>
