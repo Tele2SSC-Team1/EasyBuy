@@ -14,21 +14,21 @@
             <div th:if="${successMessage != null}" class="w3-panel w3-green">
                 <p th:text="${successMessage}"/>
             </div>
-            <form class="w3-row-padding" action="#" th:action="@{/close_reservation}" method="post" th:object="${user}">
+            <form class="w3-row-padding" action="#" th:action="@{/close_reservation}" method="post" th:object="${user}" th:if="${successMessage == null}">
                 <input type="hidden" th:field="*{id}" th:if="${user.id != null}"/>
                 <div>
                     <label>Full name</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('fullName')}">
                         <p th:errors="*{fullName}"></p>
                     </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{fullName}" disabled="disabled"/>
+                    <input type="text" class="w3-input w3-border" th:field="*{fullName}" readonly="readonly"/>
                 </div>
                 <div>
                     <label>Email</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('email')}">
                         <p th:errors="*{email}"></p>
                     </div>
-                    <input type="email" class="w3-input w3-border" th:field="*{email}" disabled="disabled"/>
+                    <input type="email" class="w3-input w3-border" th:field="*{email}" readonly="readonly"/>
                 </div>
                 <div>
                     <label>Phone Number</label>
@@ -38,14 +38,18 @@
                     <input type="number" class="w3-input w3-border" th:field="*{phoneNum}"/>
                 </div>
                 <div>
-                    <label>Address</label>
+                    <label >Address</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('address')}">
                         <p th:errors="*{address}"></p>
                     </div>
                     <input type="text" class="w3-input w3-border" th:field="*{address}"/>
+                    <input type="hidden" class="w3-input w3-border" th:field="*{password}"/>
+                    <input type="hidden" class="w3-input w3-border" th:field="*{password2}"/>
+                    <input type="hidden" class="w3-input w3-border" th:field="*{currentReservation}"/>
+                    <input type="hidden" class="w3-input w3-border" th:field="*{roles}"/>
                 </div>
                 <br />
-                <div>
+                <div th:if="${successMessage == null}">
                     <label>Payment after delivery by: </label>
                     <p><input class="w3-radio" type="radio" name="payment" value="card" checked="checked"/>
                     <label>Card</label></p>
@@ -55,6 +59,11 @@
                 </div>
                 <div>
                     <button class="w3-button w3-black">Buy</button>
+                </div>
+            </form>
+            <form class="w3-row-padding" action="#" th:action="@{/}" method="get" th:if="${successMessage != null}">
+                <div>
+                    <button class="w3-button w3-green">Home</button>
                 </div>
             </form>
         </div>

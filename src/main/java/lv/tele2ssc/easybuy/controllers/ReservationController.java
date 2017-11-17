@@ -1,10 +1,12 @@
 package lv.tele2ssc.easybuy.controllers;
 
 import java.util.List;
+import javax.validation.Valid;
 import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Goods;
 import lv.tele2ssc.easybuy.model.Reservation;
 import lv.tele2ssc.easybuy.model.ReservationGoods;
+import lv.tele2ssc.easybuy.model.ReservationStatus;
 import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.services.GoodsService;
 import lv.tele2ssc.easybuy.services.ReservationService;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -88,7 +91,7 @@ public class ReservationController {
     }
     
     @RequestMapping(path = "/submit_reservation", method = RequestMethod.GET)
-    public String close_reservation(Model model) {
+    public String submit_reservation(Model model) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userService.findByEmail(email);
         
@@ -100,5 +103,39 @@ public class ReservationController {
         
         return "submit_reservation";        
     }
+    
+    @RequestMapping(path = "/close_reservation", method = RequestMethod.POST)
+    public String close_reservation(@Valid User user, BindingResult bindingResult, Model model) {
+        validateAddress(user, bindingResult);
+        
+        if (bindingResult.hasErrors()) {
+            return "submit_reservation";
+        }
+        
+        
+        model.addAttribute("successMessage", "You are successfully submit order. Our consultant will contact you soon");
+        
+        Reservation reservation = user.getCurrentReservation();
+        reservation.setStatus(ReservationStatus.CLOSED);
+        user.setCurrentReservation(null);
+        userService.save(user);
+        reservationService.saveReservation(reservation);
+        
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
+        
+        return "submit_reservation";        
+    }
+    
+    private void validateAddress(User user, BindingResult bindingResult) {
+        if (user == null) {
+            return;
+        }
+        String address = user.getAddress();
+        if (address == null || address == "") {
+            bindingResult.rejectValue("address", "empty_address",  "Please specify address");
+        }
+    }    
     
 }
