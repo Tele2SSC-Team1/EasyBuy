@@ -14,7 +14,7 @@
             <div th:if="${successMessage != null}" class="w3-panel w3-green">
                 <p th:text="${successMessage}"/>
             </div>
-            <form class="w3-row-padding" action="#" th:action="@{/close_reservation}" method="post" th:object="${user}" th:if="${successMessage == null}">
+            <form class="w3-row-padding" action="#" th:action="@{/progress_reservation}" method="post" th:object="${user}" th:if="${successMessage == null}">
                 <input type="hidden" th:field="*{id}" th:if="${user.id != null}"/>
                 <div>
                     <label>Full name</label>

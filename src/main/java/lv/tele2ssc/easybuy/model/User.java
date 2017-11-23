@@ -68,7 +68,7 @@ public class User implements Serializable{
     @Transient
     private List<RoleAssigment> roleAssigments;
     public Reservation getCurrentReservation() {
-        return currentReservation;
+         return currentReservation;
     }
 
     public String getAddress() {

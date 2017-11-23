@@ -35,6 +35,7 @@
                     <button onclick="accountProperties()" class="w3-button w3-black" th:text="${currentUser.fullName}">User Name</button>
                     <div id="accountDropDown" class="w3-dropdown-content w3-bar-block w3-border">
                       <a href="/new_item" class="w3-bar-item w3-button" th:if="${currentUser.isManager()}">Add</a>
+                      <a href="/manage_reservation" class="w3-bar-item w3-button" th:if="${currentUser.isManager()}">Manage Orders</a>
                       <a href="/profile" class="w3-bar-item w3-button">Account</a>
                       <a href="/edit_role" class="w3-bar-item w3-button" th:if="${currentUser.isAdmin()}">Roles</a>
                       <a href="/logout" th:href="@{/logout}" class="w3-bar-item w3-button">Log out</a>

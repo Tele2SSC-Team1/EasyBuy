@@ -25,37 +25,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ReservationController {
+
     private final static Logger logger = LoggerFactory.getLogger(ReservationController.class);
     @Autowired
-    private UserService userService;  
-    
+    private UserService userService;
+
     @Autowired
     private GoodsService goodsService;
-    
+
     @Autowired
-    private ReservationService reservationService; 
-    
+    private ReservationService reservationService;
+
     @RequestMapping(path = "/order", method = RequestMethod.POST)
-    public String order(@RequestParam long goodsId, @RequestParam(defaultValue = "1", required=false) int orderAmount, Model model) {
-        
+    public String order(@RequestParam long goodsId, @RequestParam(defaultValue = "1", required = false) int orderAmount, Model model) {
+
         Goods goods = goodsService.findGoodById(goodsId);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
-        
+
         reservationService.doReservation(user, goods, orderAmount);
-        return "redirect:/good?goodsId="+goodsId;   
+        model.addAttribute("successMessage", "You are successfully order item. Check cart");
+
+        return "redirect:/good?goodsId=" + goodsId;
     }
-    
+
     @RequestMapping(path = "/deleteFromReservation", method = RequestMethod.POST)
     public String deleteFromReservation(@RequestParam long reservationGoodsId, @RequestParam long reservationId, Model model) {
         ReservationGoods reservationGoods = reservationService.findReservationGoodById(reservationGoodsId);
         Reservation reservation = reservationService.findReservationById(reservationId);
         reservation.getReservationGoods().remove(reservationGoods);
         reservationService.saveReservation(reservation);
-        
-        return "redirect:/mycart";   
+
+        return "redirect:/mycart";
     }
-    
+
     @RequestMapping(path = "/changeAmount", method = RequestMethod.POST)
     public String changeAmount(@ModelAttribute Reservation reservation, Model model) {
         logger.debug("change amount {}", reservation);
@@ -63,11 +66,11 @@ public class ReservationController {
             ReservationGoods rgg = reservationService.findReservationGoodById(rg.getId());
             rgg.setAmount(rg.getAmount());
             reservationService.saveReservationGoods(rgg);
-        }       
-        
-        return "redirect:/mycart";   
+        }
+
+        return "redirect:/mycart";
     }
-    
+
     @RequestMapping(path = "/mycart", method = RequestMethod.GET)
     public String mycart(Model model) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -77,65 +80,80 @@ public class ReservationController {
         if (reservation != null) {
             for (ReservationGoods rg : reservation.getReservationGoods()) {
 
-                totalPrice = totalPrice + rg.getGoods().getPrice()*rg.getAmount();
+                totalPrice = totalPrice + rg.getGoods().getPrice() * rg.getAmount();
             }
         }
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("reservation", reservation);
-        
-        List<Category> categories = goodsService.findAllCategories();
 
+        List<Category> categories = goodsService.findAllCategories();
         model.addAttribute("categories", categories);
-        
-        return "mycart";        
+
+        return "mycart";
     }
-    
+
     @RequestMapping(path = "/submit_reservation", method = RequestMethod.GET)
     public String submit_reservation(Model model) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userService.findByEmail(email);
-        
+
         model.addAttribute("user", currentUser);
-        
+
         List<Category> categories = goodsService.findAllCategories();
 
         model.addAttribute("categories", categories);
-        
-        return "submit_reservation";        
+
+        return "submit_reservation";
     }
-    
-    @RequestMapping(path = "/close_reservation", method = RequestMethod.POST)
+
+    @RequestMapping(path = "/progress_reservation", method = RequestMethod.POST)
     public String close_reservation(@Valid User user, BindingResult bindingResult, Model model) {
         validateAddress(user, bindingResult);
-        
+
         if (bindingResult.hasErrors()) {
             return "submit_reservation";
         }
-        
-        
+
         model.addAttribute("successMessage", "You are successfully submit order. Our consultant will contact you soon");
-        
+
         Reservation reservation = user.getCurrentReservation();
-        reservation.setStatus(ReservationStatus.CLOSED);
+        reservation.setStatus(ReservationStatus.PROGRESS);
         user.setCurrentReservation(null);
         userService.save(user);
         reservationService.saveReservation(reservation);
-        
+
         List<Category> categories = goodsService.findAllCategories();
 
         model.addAttribute("categories", categories);
-        
-        return "submit_reservation";        
+
+        return "submit_reservation";
     }
-    
+
     private void validateAddress(User user, BindingResult bindingResult) {
         if (user == null) {
             return;
         }
         String address = user.getAddress();
         if (address == null || address == "") {
-            bindingResult.rejectValue("address", "empty_address",  "Please specify address");
+            bindingResult.rejectValue("address", "empty_address", "Please specify address");
         }
-    }    
-    
+    }
+
+    @RequestMapping(path = "/manage_reservation", method = RequestMethod.GET)
+    public String manage_reservation(Model model) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email);
+
+        Reservation reservation = currentUser.getCurrentReservation();
+
+        model.addAttribute("reservation", reservation);
+
+//Category list for sidepanel
+        List<Category> categories = goodsService.findAllCategories();
+        model.addAttribute("categories", categories);
+
+        return "manage_reservation";
+
+    }
 }
