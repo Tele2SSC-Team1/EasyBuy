@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     </head>
     <body>
-    
+
         <div th:replace="fragments/menu :: main"></div>
         <div th:if="${category!=null}"><div th:replace="fragments/breadcrumbs :: category(${category})"></div></div>
 
@@ -55,15 +55,24 @@
                             <td th:text="${goods.price} + ' &euro;'">1989</td>
                         </tr>
                     </table>
-                    <form action="mybooks.html" th:action="@{/order}" method="post">
+                    <form action="mybooks.html" th:action="@{/order}" method="post" style="width: 100%">
                         <select class="w3-select w3-right w3-margin-left" style="width: 200px" name="orderAmount" >
                             <option value="" disabled="disabled" selected="selected" class="w3-text-gray">Choose amount</option>
                             <option value="1" th:each="i : ${#numbers.sequence( 1, __${goods.amount}__)}" th:text="${i}" th:value="${i}" name="orderAmount">Option 1</option>
-                            
+
                         </select>
                         <input type="hidden" name="goodsId" th:value="${goods.id}"/>
                         <button class="w3-button w3-right w3-red">Order</button>
                     </form>
+                    <div th:if="${currentUser != null}" >
+                        <div th:if="${reservation != null}" class="w3-panel" style="width: 100%">
+                            <div th:each="rg : ${reservation.getReservationGoods()}">
+                                <div th:if="${rg.getGoods().id == goods.id}"  class="w3-panel w3-green w3-right w3-margin-left">
+                                    <a href="/mycart">You are successfully add item to <i class="fa fa-shopping-cart" style="font-size:18px;color:white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="w3-row-padding">
@@ -73,7 +82,7 @@
                 </div>
             </div>
         </div>
-        
-    <th:block layout:replace="fragments/menu :: script"/>
+
+        <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>
