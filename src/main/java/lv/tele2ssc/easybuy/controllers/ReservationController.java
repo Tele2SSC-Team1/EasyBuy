@@ -107,7 +107,7 @@ public class ReservationController {
     }
 
     @RequestMapping(path = "/progress_reservation", method = RequestMethod.POST)
-    public String close_reservation(@Valid User user, BindingResult bindingResult, Model model) {
+    public String progressReservation(@Valid User user, BindingResult bindingResult, Model model) {
         validateAddress(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -115,9 +115,13 @@ public class ReservationController {
         }
 
         model.addAttribute("successMessage", "You are successfully submit order. Our consultant will contact you soon");
-
+        float totalPrice = 0;
         Reservation reservation = user.getCurrentReservation();
         reservation.setStatus(ReservationStatus.PROGRESS);
+        for (ReservationGoods rg : reservation.getReservationGoods()) {
+            totalPrice = totalPrice + rg.getGoods().getPrice() * rg.getAmount();
+        }
+        reservation.setTotalPrice(totalPrice);
         user.setCurrentReservation(null);
         userService.save(user);
         reservationService.saveReservation(reservation);
@@ -155,5 +159,53 @@ public class ReservationController {
 
         return "manage_reservation";
 
+    }
+    
+    @RequestMapping(path = "/my_reservations", method = RequestMethod.GET)
+    public String my_reservations(Model model) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email);
+
+        List<Reservation> reservations = reservationService.findAllByUser(currentUser);
+
+        model.addAttribute("reservations", reservations);
+
+        //Category list for sidepanel
+        List<Category> categories = goodsService.findAllCategories();
+        model.addAttribute("categories", categories);
+
+        return "my_reservations";
+
+    }
+    
+    @RequestMapping(path = "/closeReservation", method = RequestMethod.POST)
+    public String closeReservation(@RequestParam String reservationStatus, @RequestParam long reservationId, Model model) {
+        Reservation reservation = reservationService.findReservationById(reservationId);
+        ReservationStatus status;
+        if (reservationStatus.equals("APPROVED")) {
+            status = ReservationStatus.APPROVED;
+        } else{
+            status = ReservationStatus.CLOSED;
+        }
+        reservation.setStatus(status);
+        reservationService.saveReservation(reservation);
+        //for (ReservationGoods rg : reservation.getReservationGoods()) {
+            //rg.setStatus(status);
+            //reservationService.saveReservationGoods(rg);
+        //}
+        
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.findByEmail(email);
+
+        List<Reservation> reservations = reservationService.findAllByUser(currentUser);
+
+        model.addAttribute("reservations", reservations);
+        
+        List<Category> categories = goodsService.findAllCategories();
+
+        model.addAttribute("categories", categories);
+
+        return "my_reservations";
     }
 }

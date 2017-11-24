@@ -2,6 +2,7 @@ package lv.tele2ssc.easybuy.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +32,24 @@ public class Reservation implements Serializable {
     @Column
     private Timestamp created;
     
+    @Column
+    private float totalPrice;
+    
     @OneToMany
     @JoinColumn(name = "reservation_id")
     private List<ReservationGoods> reservationGoods;
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
     
-    public Timestamp getCreated() {
-        return created;
+    public String getCreated() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm:ss");
+        return dateFormat.format( this.created );
     }
 
     public void setCreated(Timestamp created) {
