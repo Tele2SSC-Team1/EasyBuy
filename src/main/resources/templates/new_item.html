@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/js/dynamic-search.js"></script>
     </head>
     <body>
 
@@ -73,22 +76,29 @@
                     </div>
                     <input type="number" class="w3-input w3-border" th:field="*{amount}"/>
                 </div>
-                <div th:fragment="list(subCategory)">
+                <div>
                     <label>Category</label>
                     <div class="w3-container w3-red" th:if="${#fields.hasErrors('category')}">
                         <p th:errors="*{category}"></p>
                     </div>
-                    <select class="w3-select" name="category" >
+                    <select class="w3-select w3-border " id="category" >
                         <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
-                        <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="category" >Option 1</option>
+                        <!--<option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="category" >Option 1</option>-->
+                        <option value="2" th:each="c : ${categories}" th:selected="${categories} == ${c}" th:text="${c.categoryName}" th:value="${c.id}">Option 1</option>
                     </select>
+
+                    <label>subCategory</label>
+                    <select class="w3-select  w3-border" id="subCategory" >
+                        <option w3-repeat="subCategories">{{categoryName}}</option>
+                    </select>
+
                 </div>
-                <div>
+                <div class="w3-padding-16">
                     <button class="w3-button w3-black" th:if="${goods.id == null}">Add</button>
                     <button class="w3-button w3-black" th:if="${goods.id != null}">Save</button>
                 </div>
             </form>
         </div>
-<th:block layout:replace="fragments/menu :: script"/>
+        <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>

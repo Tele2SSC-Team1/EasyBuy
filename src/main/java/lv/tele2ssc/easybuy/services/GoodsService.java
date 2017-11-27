@@ -62,4 +62,12 @@ public class GoodsService {
        
         return goodsRepository.findByCategory(category);
     }
+
+    /*public List<Category> findSubCategoriesById(Long id) {
+        return categoryRepository.findSubCategoriesById(id);
+    }*/
+
+    public List<Category> findSubCategories(Category category) {
+        return categoryRepository.findSubCategories(category);
+    }
 }

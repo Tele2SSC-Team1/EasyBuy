@@ -44,12 +44,12 @@ public class GoodsController {
     public String editItem(@RequestParam long goodsId, Model model) {
         Goods goods = goodsService.findGoodById(goodsId);
         List<Category> subCategories = goodsService.findAllSubCategories();
+        List<Category> categories=goodsService.findAllCategories();
+        
         Category goodSubCategory = goods.getCategory();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
         model.addAttribute("goodSubCategory", goodSubCategory);
-        List<Category> categories = goodsService.findAllCategories();
-
         model.addAttribute("categories", categories);
         return "new_item";
     }

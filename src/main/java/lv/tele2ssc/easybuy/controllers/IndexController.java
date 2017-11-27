@@ -22,6 +22,11 @@ public class IndexController {
          
         List<Goods> goods = goodsService.findAllGoods();
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         model.addAttribute("categories", categories);
         model.addAttribute("goods", goods);
@@ -48,7 +53,7 @@ public class IndexController {
         List<Category> categories = goodsService.findAllCategories();
         
         if (category.getParent() == null) {
-            List<Category> subCategories = category.getSubCategories();
+            List<Category> subCategories = goodsService.findSubCategories(category);
             for (Category c : subCategories) {
                 List<Goods> subGoods = goodsService.findGoodsByCategory(c);
                 for (Goods g : subGoods) {

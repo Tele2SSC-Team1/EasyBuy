@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -25,7 +26,7 @@ public class Category {
     @NotEmpty
     private String categoryName;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @Transient
     private List<Category> subCategories;
     
     @ManyToOne
