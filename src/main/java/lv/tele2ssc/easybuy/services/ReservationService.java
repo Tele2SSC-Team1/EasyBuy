@@ -31,7 +31,7 @@ public class ReservationService {
     }
     
     public void doReservation(User user, Goods goods, Integer orderAmount) {
-     
+        
         //To ovewrite amount, if corrections done
         if (user.getCurrentReservation()!=null) {
             for (ReservationGoods rg : user.getCurrentReservation().getReservationGoods()) {
@@ -55,12 +55,14 @@ public class ReservationService {
             reservation.setReservationGoods(Arrays.asList(reservationGoods));
             reservation.setCreated(new Timestamp(System.currentTimeMillis()));
             reservation.setStatus(ReservationStatus.NEW);
+            reservation.setTotalPrice(reservationGoods.getGoods().getPrice());
             reservationRepository.save(reservation);
             user.setCurrentReservation(reservation);
             userRepository.save(user);
         } else {
             Reservation reservation = user.getCurrentReservation();
             reservation.getReservationGoods().add(reservationGoods);
+            reservation.setTotalPrice(reservation.getTotalPrice() + reservationGoods.getGoods().getPrice());
             reservationRepository.save(reservation);
         }
     }

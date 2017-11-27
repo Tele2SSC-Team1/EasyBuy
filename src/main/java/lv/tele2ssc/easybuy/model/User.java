@@ -67,6 +67,19 @@ public class User implements Serializable{
     
     @Transient
     private List<RoleAssigment> roleAssigments;
+    
+    @Column
+    private float rating = 0L;
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+    
+    
     public Reservation getCurrentReservation() {
          return currentReservation;
     }

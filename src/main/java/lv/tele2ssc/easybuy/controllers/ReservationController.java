@@ -115,13 +115,12 @@ public class ReservationController {
         }
 
         model.addAttribute("successMessage", "You are successfully submit order. Our consultant will contact you soon");
-        float totalPrice = 0;
         Reservation reservation = user.getCurrentReservation();
         reservation.setStatus(ReservationStatus.PROGRESS);
         for (ReservationGoods rg : reservation.getReservationGoods()) {
-            totalPrice = totalPrice + rg.getGoods().getPrice() * rg.getAmount();
+            rg.getGoods().setAmount(rg.getGoods().getAmount()-rg.getAmount());
+            goodsService.saveGoods(rg.getGoods());
         }
-        reservation.setTotalPrice(totalPrice);
         user.setCurrentReservation(null);
         userService.save(user);
         reservationService.saveReservation(reservation);

@@ -51,6 +51,28 @@ public class Goods implements Serializable {
     
     @Column(name = "img_src")
     private String imgSrc;
+    
+    @Column
+    private float rating = 0L;
+    
+    @Column
+    private int votes;
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 
     public String getImgSrc() {
         return imgSrc;
