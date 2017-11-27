@@ -14,81 +14,85 @@
             <div th:if="${successMessage != null}" class="w3-panel w3-green">
                 <p th:text="${successMessage}"/>
             </div>
-            <form class="w3-row-padding" action="#" th:action="@{/new_item}" method="post" th:object="${goods}">
+            <form class="w3-row-padding" action="#" th:action="@{/new_item}" method="post" th:object="${goods}" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{id}"/>
                 <input type="hidden" th:value="${currentUser.id}" name="userId"/>
-                <div>
-                    <label>Item name</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('name')}">
-                        <p th:errors="*{name}"></p>
+                <div class="w3-container w3-margin">
+                    <div class="w3-row-padding">
+                        <div class="w3-col l4 m6 s12">
+                            <img src="http://via.placeholder.com/300x300" th:src="@{/good-image(goodId=*{id})}" style="width:100%"/>
+                            <input type="file" name="image" />
+                        </div>
+                        <div class="w3-col l8 m6 s12">
+                            <div>
+                                <label class="w3-text-grey">Item name</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('name')}">
+                                    <p th:errors="*{name}"></p>
+                                </div>
+                                <input type="text" class="w3-input w3-border" th:field="*{name}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Description</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('description')}">
+                                    <p th:errors="*{description}"></p>
+                                </div>
+                                <input type="text" class="w3-input w3-border" th:field="*{description}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Code</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('code')}">
+                                    <p th:errors="*{code}"></p>
+                                </div>
+                                <input type="text" class="w3-input w3-border" th:field="*{code}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Price</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('price')}">
+                                    <p th:errors="*{price}"></p>
+                                </div>
+                                <input type="number" step="0.01" class="w3-input w3-border" th:field="*{price}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Status</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('status')}">
+                                    <p th:errors="*{status}"></p>
+                                </div>
+                                <input type="text" class="w3-input w3-border" th:field="*{status}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Manufacturer</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('manufacturer')}">
+                                    <p th:errors="*{manufacturer}"></p>
+                                </div>
+                                <input type="text" class="w3-input w3-border" th:field="*{manufacturer}"/>
+                            </div>
+                            <div class="w3-margin-top">
+                                <label class="w3-text-grey">Amount</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('amount')}">
+                                    <p th:errors="*{amount}"></p>
+                                </div>
+                                <input type="number" class="w3-input w3-border" th:field="*{amount}"/>
+                            </div>
+                            <div th:fragment="list(subCategory)" class="w3-margin-top">
+                                <label class="w3-text-grey">Category</label>
+                                <div class="w3-container w3-red" th:if="${#fields.hasErrors('category')}">
+                                    <p th:errors="*{category}"></p>
+                                </div>
+                                <select class="w3-select" name="category" >
+                                    <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
+                                    <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="category" >Option 1</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w3-margin-top">
+                            <button class="w3-button w3-black" th:if="${goods.id == null}">Add</button>
+                            <button class="w3-button w3-black" th:if="${goods.id != null}">Save</button>
+                        </div>
+
                     </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{name}"/>
-                </div>
-                <div>
-                    <label>Image</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('imgSrc')}">
-                        <p th:errors="*{imgSrc}"></p>
-                    </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{imgSrc}"/>
-                </div>
-                <div>
-                    <label>Description</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('description')}">
-                        <p th:errors="*{description}"></p>
-                    </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{description}"/>
-                </div>
-                <div>
-                    <label>Code</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('code')}">
-                        <p th:errors="*{code}"></p>
-                    </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{code}"/>
-                </div>
-                <div>
-                    <label>Price</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('price')}">
-                        <p th:errors="*{price}"></p>
-                    </div>
-                    <input type="number" step="0.01" class="w3-input w3-border" th:field="*{price}"/>
-                </div>
-                <div>
-                    <label>Status</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('status')}">
-                        <p th:errors="*{status}"></p>
-                    </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{status}"/>
-                </div>
-                <div>
-                    <label>Manufacturer</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('manufacturer')}">
-                        <p th:errors="*{manufacturer}"></p>
-                    </div>
-                    <input type="text" class="w3-input w3-border" th:field="*{manufacturer}"/>
-                </div>
-                <div>
-                    <label>Amount</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('amount')}">
-                        <p th:errors="*{amount}"></p>
-                    </div>
-                    <input type="number" class="w3-input w3-border" th:field="*{amount}"/>
-                </div>
-                <div th:fragment="list(subCategory)">
-                    <label>Category</label>
-                    <div class="w3-container w3-red" th:if="${#fields.hasErrors('category')}">
-                        <p th:errors="*{category}"></p>
-                    </div>
-                    <select class="w3-select" name="category" >
-                        <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your category</option>
-                        <option value="2" th:each="c : ${subCategory}" th:selected="${goodSubCategory} == ${c}" th:text="${c.getParent().categoryName} + ' | ' + ${c.categoryName}" th:value="${c.id}" name="category" >Option 1</option>
-                    </select>
-                </div>
-                <div>
-                    <button class="w3-button w3-black" th:if="${goods.id == null}">Add</button>
-                    <button class="w3-button w3-black" th:if="${goods.id != null}">Save</button>
                 </div>
             </form>
         </div>
-<th:block layout:replace="fragments/menu :: script"/>
+        <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>
