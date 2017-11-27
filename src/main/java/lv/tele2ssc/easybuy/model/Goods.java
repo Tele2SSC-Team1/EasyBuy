@@ -49,17 +49,38 @@ public class Goods implements Serializable {
     @Column(nullable = false)
     private int amount;
     
-    @Column(name = "img_src")
-    private String imgSrc;
+    @Column
+    private float rating = 0L;
+    
+    @Column
+    private int votes;
+    
+    @Column
+    private String imageFileName;
 
-    public String getImgSrc() {
-        return imgSrc;
+    public String getImageFileName() {
+        return imageFileName;
     }
 
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
-      
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }      
 
     public Long getId() {
         return id;

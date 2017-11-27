@@ -32,9 +32,9 @@ public class CurrentUserInterceptor extends HandlerInterceptorAdapter {
     
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (modelAndView == null) {
+         if (modelAndView == null) {
             return;
-        }
+        } 
         // Retriving email of currently logged in user.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {

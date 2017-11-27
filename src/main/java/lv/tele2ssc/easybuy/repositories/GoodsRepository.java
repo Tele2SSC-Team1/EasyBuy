@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GoodsRepository extends CrudRepository<Goods, Long> {
     
-    @Query("SELECT g FROM Goods g order by g.category.parent.categoryName, g.category.categoryName, g.name")
+    @Query("SELECT g FROM Goods g where g.amount>0 order by g.category.parent.categoryName, g.category.categoryName, g.name")
     public List<Goods> findAll();
     
-    @Query("SELECT g FROM Goods g WHERE lower(g.name) like %?1% OR lower(g.description) like %?1% OR lower(g.code) like %?1%")
+    @Query("SELECT g FROM Goods g WHERE g.amount>0 and (lower(g.name) like %?1% OR lower(g.description) like %?1% OR lower(g.code) like %?1%)")
     List<Goods> findByTerm(String term);
 
-    @Query("SELECT g FROM Goods g WHERE g.category = ?1 order by g.name")
+    @Query("SELECT g FROM Goods g WHERE g.category = ?1 and g.amount>0 order by g.name")
     public List<Goods> findByCategory(Category category);
 }
