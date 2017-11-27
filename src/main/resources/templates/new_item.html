@@ -88,8 +88,8 @@
                                 </select>
 
                                 <label>subCategory</label>
-                                <select class="w3-select  w3-border" id="subCategory" >
-                                    <option w3-repeat="subCategories">{{categoryName}}</option>
+                                <select class="w3-select  w3-border" id="subCategory" name="categoryId">
+                                    <option w3-repeat="subCategories" value="{{id}}">{{categoryName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -101,7 +101,8 @@
                     </div>
                     <input type="text" class="w3-input w3-border" th:field="*{name}"/>
                 </div>
-   
+            </form>
+        </div>
         <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>

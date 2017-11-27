@@ -28,12 +28,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class GoodsController {
-    
+
     private static final Logger logger
             = LoggerFactory.getLogger(GoodsController.class);
 
@@ -42,7 +43,7 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
-    
+
     @Autowired
     private ImageService imageService;
 
@@ -62,8 +63,8 @@ public class GoodsController {
     public String editItem(@RequestParam long goodsId, Model model) {
         Goods goods = goodsService.findGoodById(goodsId);
         List<Category> subCategories = goodsService.findAllSubCategories();
-        List<Category> categories=goodsService.findAllCategories();
-        
+        List<Category> categories = goodsService.findAllCategories();
+
         Category goodSubCategory = goods.getCategory();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
@@ -73,8 +74,8 @@ public class GoodsController {
     }
 
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam long userId, @RequestParam(defaultValue = "0", required = false) long category, @Valid Goods goods, BindingResult bindingResult, @RequestParam MultipartFile image, Model model) {
-        validateCategory(category, bindingResult);
+    public String newItem(@RequestParam Long categoryId, @Valid Goods goods, BindingResult bindingResult, @RequestParam MultipartFile image, Model model) {
+//        validateCategory(subCategory, bindingResult);
         validateAmount(goods.getAmount(), bindingResult);
         validatePrice(goods.getPrice(), bindingResult);
         // validation isn't passed return back to registration form
@@ -86,12 +87,16 @@ public class GoodsController {
             return "new_item";
         }
         storeImage(goods, image, bindingResult);
-        
+
         if (bindingResult.hasErrors()) {
             return null;
         }
- 
-        User seller = userService.findUser(userId);
+        
+        Category cat = goodsService.findCategoryById(categoryId);
+        goods.setCategory(cat);
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User seller = userService.findByEmail(auth.getName());
         goods.setSeller(seller);
         goodsService.saveGoods(goods);
 
@@ -100,7 +105,7 @@ public class GoodsController {
 
         return "redirect:/good?goodsId=" + goods.getId();
     }
-    
+
     private void storeImage(Goods goods, MultipartFile image, BindingResult bindingResult) {
         if (image.isEmpty()) {
             logger.debug("No image uploded preserving previous");
@@ -163,17 +168,17 @@ public class GoodsController {
             return "good";
         }
     }
-    
+
     @RequestMapping(path = "/good-image", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Resource> getGoodImage(@RequestParam long goodId) {
-         Resource file = imageService.loadImageAsResource(goodId);
-         if (file == null) {
-             return ResponseEntity.notFound().build();
-         } else {
-             return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                     "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-         }
+        Resource file = imageService.loadImageAsResource(goodId);
+        if (file == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        }
     }
 
 }

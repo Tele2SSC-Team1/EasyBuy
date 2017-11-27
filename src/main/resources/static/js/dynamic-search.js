@@ -47,7 +47,6 @@ function getSubCatList(id){
 }
 
 
-
 function fillList(myObject) {
     console.log("displaying JSON " + JSON.stringify({"subCategories":myObject}));
   w3.displayObject("subCategory", {"subCategories":myObject});
