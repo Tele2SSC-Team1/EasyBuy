@@ -66,16 +66,18 @@ public class GoodsController {
         List<Category> categories = goodsService.findAllCategories();
 
         Category goodSubCategory = goods.getCategory();
+        Category goodCategory = goodSubCategory.getParent();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
         model.addAttribute("goodSubCategory", goodSubCategory);
+        model.addAttribute("goodCategory", goodCategory);
         model.addAttribute("categories", categories);
         return "new_item";
     }
 
     @RequestMapping(path = "/new_item", method = RequestMethod.POST)
-    public String newItem(@RequestParam Long categoryId, @Valid Goods goods, BindingResult bindingResult, @RequestParam MultipartFile image, Model model) {
-//        validateCategory(subCategory, bindingResult);
+    public String newItem(@RequestParam(defaultValue = "0", required = false) Long categoryId, @Valid Goods goods, BindingResult bindingResult, @RequestParam MultipartFile image, Model model) {
+        validateCategory(categoryId, bindingResult);
         validateAmount(goods.getAmount(), bindingResult);
         validatePrice(goods.getPrice(), bindingResult);
         // validation isn't passed return back to registration form
@@ -91,13 +93,18 @@ public class GoodsController {
         if (bindingResult.hasErrors()) {
             return null;
         }
-        
+
         Category cat = goodsService.findCategoryById(categoryId);
         goods.setCategory(cat);
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User seller = userService.findByEmail(auth.getName());
-        goods.setSeller(seller);
+        User currentUser = userService.findByEmail(auth.getName());
+        User seller = goods.getSeller();
+        if (seller == null) {
+            goods.setSeller(seller);
+        } else {
+            goods.setSeller(currentUser);
+        }
         goodsService.saveGoods(goods);
 
         Category goodSubCategory = goods.getCategory();
