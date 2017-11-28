@@ -10,11 +10,29 @@
 
         <div th:replace="fragments/menu :: main"></div>
 
+        <table class="w3-table w3-bordered w3-margin w3-col s8" th:if="${successMessage == null}">
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Amount</th>
+            </tr>
+            <tr  th:each="g : ${currentUser.getCurrentReservation().getReservationGoods()}">
+
+                <td style='vertical-align:middle'><a href="mybooks.html" th:href="@{/good(goodsId=${g.getGoods().id})}" th:text="${g.getGoods().name}">Name</a></td>
+                <td style='vertical-align:middle' th:text="${g.getGoods().price} + ' &euro;'">Price</td>
+                <td style='vertical-align:middle' th:text="${g.amount}">Amount</td>
+            </tr>
+            <tr>
+                <th class="w3-right">Total price: </th>
+                <td><b th:text="${currentUser.getCurrentReservation().getTotalPrice() + ' &euro;'}">100 </b></td>
+            </tr>
+        </table>
+
         <div class="w3-container w3-margin">
             <div th:if="${successMessage != null}" class="w3-panel w3-green">
                 <p th:text="${successMessage}"/>
             </div>
-            <form class="w3-row-padding" action="#" th:action="@{/progress_reservation}" method="post" th:object="${user}" th:if="${successMessage == null}">
+            <form class="w3-row-padding w3-margin-top" action="#" th:action="@{/progress_reservation}" method="post" th:object="${user}" th:if="${successMessage == null}">
                 <input type="hidden" th:field="*{id}" th:if="${user.id != null}"/>
                 <div>
                     <label>Full name</label>
@@ -52,10 +70,10 @@
                 <div th:if="${successMessage == null}">
                     <label>Payment after delivery by: </label>
                     <p><input class="w3-radio" type="radio" name="payment" value="card" checked="checked"/>
-                    <label>Card</label></p>
+                        <label>Card</label></p>
 
                     <p><input class="w3-radio" type="radio" name="payment" value="cash"/>
-                    <label>Cash</label></p>
+                        <label>Cash</label></p>
                 </div>
                 <div>
                     <button class="w3-button w3-black">Buy</button>
@@ -67,6 +85,6 @@
                 </div>
             </form>
         </div>
-<th:block layout:replace="fragments/menu :: script"/>
+        <th:block layout:replace="fragments/menu :: script"/>
     </body>
 </html>

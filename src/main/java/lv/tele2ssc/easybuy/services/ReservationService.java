@@ -55,15 +55,20 @@ public class ReservationService {
             reservation.setReservationGoods(Arrays.asList(reservationGoods));
             reservation.setCreated(new Timestamp(System.currentTimeMillis()));
             reservation.setStatus(ReservationStatus.NEW);
-            reservation.setTotalPrice(reservationGoods.getGoods().getPrice());
+            reservationGoods.setReservation(reservation);
+            reservationGoods.setStatus(ReservationStatus.NEW);
+            reservation.setTotalPrice(reservationGoods.getGoods().getPrice()*reservationGoods.getAmount());
             reservationRepository.save(reservation);
+            reservationGoodsRepository.save(reservationGoods);
             user.setCurrentReservation(reservation);
             userRepository.save(user);
         } else {
             Reservation reservation = user.getCurrentReservation();
             reservation.getReservationGoods().add(reservationGoods);
-            reservation.setTotalPrice(reservation.getTotalPrice() + reservationGoods.getGoods().getPrice());
+            reservation.setTotalPrice(reservation.getTotalPrice() + reservationGoods.getGoods().getPrice()*reservationGoods.getAmount());
+            reservationGoods.setReservation(reservation);
             reservationRepository.save(reservation);
+            reservationGoodsRepository.save(reservationGoods);
         }
     }
     
@@ -83,6 +88,15 @@ public class ReservationService {
     public void saveReservationGoods(ReservationGoods reservationGoods) {
         
         reservationGoodsRepository.save(reservationGoods);
+    }
+    
+    public List<ReservationGoods> FindNotClosedReservationGoods(User seller) {
+        return reservationGoodsRepository.findNotClosed(seller);
+        
+    }
+    
+    public List<Reservation> FindNotClosedReservations(User seller) {
+        return reservationRepository.findNotClosedReservations(seller);
     }
    
 }

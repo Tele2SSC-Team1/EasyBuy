@@ -4,6 +4,8 @@ import java.util.List;
 import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Goods;
 import lv.tele2ssc.easybuy.services.GoodsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
+    private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @Autowired
     private GoodsService goodsService;
 
     @RequestMapping(method = RequestMethod.GET, path = "/")
     public String page(Model model) {
-         
+
         List<Goods> goods = goodsService.findAllGoods();
         List<Category> categories = goodsService.findAllCategories();
-        
+
         for (Category c : categories) {
             List<Category> sub = goodsService.findSubCategories(c);
             c.setSubCategories(sub);
@@ -44,17 +47,20 @@ public class IndexController {
         model.addAttribute("term", term);
         return "index";
     }
-    
-        @RequestMapping(method = RequestMethod.GET, path = "/category")
-        public String page(@RequestParam Long categoryId,Model model) {
-         
-        Category category =goodsService.findCategoryById(categoryId);
+
+    @RequestMapping(method = RequestMethod.GET, path = "/category")
+    public String page(@RequestParam Long categoryId, Model model) {
+
+        Category category = goodsService.findCategoryById(categoryId);
+        logger.debug("find category {}", category.getCategoryName());
+        logger.debug("find category {}", category.getParent());
         List<Goods> goods = goodsService.findGoodsByCategory(category);
         List<Category> categories = goodsService.findAllCategories();
-        
+
         if (category.getParent() == null) {
-            List<Category> subCategories = goodsService.findSubCategories(category);
+            List<Category> subCategories = category.getSubCategories();
             for (Category c : subCategories) {
+                logger.debug("find subCategory {}", c.getCategoryName());
                 List<Goods> subGoods = goodsService.findGoodsByCategory(c);
                 for (Goods g : subGoods) {
                     goods.add(g);
@@ -62,7 +68,7 @@ public class IndexController {
             }
         }
 
-        model.addAttribute("category",category);
+        model.addAttribute("category", category);
         model.addAttribute("categories", categories);
         model.addAttribute("goods", goods);
         return "index";

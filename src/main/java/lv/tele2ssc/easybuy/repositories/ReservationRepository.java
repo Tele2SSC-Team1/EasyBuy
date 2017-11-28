@@ -16,4 +16,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
             + " r.status = 'CLOSED' AND r.client = ?1")
     List<Reservation> findClosedReservations(User user);
     
+    @Query("SELECT r FROM Reservation r WHERE "
+            + " (r.status = 'PROGRESS' OR r.status='APPROVED' OR r.status='DECLINED') AND r.client = ?1")
+    List<Reservation> findNotClosedReservations(User user);
 }

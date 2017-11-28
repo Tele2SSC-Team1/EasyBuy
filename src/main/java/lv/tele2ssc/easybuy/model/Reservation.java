@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.CascadeType;
 
 @Entity
 public class Reservation implements Serializable {
@@ -35,8 +36,7 @@ public class Reservation implements Serializable {
     @Column
     private float totalPrice;
     
-    @OneToMany
-    @JoinColumn(name = "reservation_id")
+    @OneToMany(mappedBy="reservation", cascade = CascadeType.ALL)
     private List<ReservationGoods> reservationGoods;
 
     public float getTotalPrice() {

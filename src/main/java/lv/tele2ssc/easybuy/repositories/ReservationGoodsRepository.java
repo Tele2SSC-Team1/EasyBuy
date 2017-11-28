@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservationGoodsRepository extends CrudRepository<ReservationGoods, Long> {
                 
+    @Query("SELECT r FROM ReservationGoods r WHERE "
+            + " (r.status = 'PROGRESS' OR r.status='APPROVED' OR r.status='NOTRECIEVED') and r.goods.seller = ?1")
+    List<ReservationGoods> findNotClosed(User seller);
 }

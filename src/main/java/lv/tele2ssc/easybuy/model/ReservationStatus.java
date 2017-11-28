@@ -4,5 +4,7 @@ public enum ReservationStatus {
     NEW,
     PROGRESS,
     APPROVED,
+    DECLINED,
+    NOTRECIEVED,
     CLOSED
 }
