@@ -58,7 +58,8 @@ public class IndexController {
         List<Category> categories = goodsService.findAllCategories();
 
         if (category.getParent() == null) {
-            List<Category> subCategories = category.getSubCategories();
+            List<Category> subCategories = goodsService.findSubCategories(category);
+            category.setSubCategories(subCategories);
             for (Category c : subCategories) {
                 logger.debug("find subCategory {}", c.getCategoryName());
                 List<Goods> subGoods = goodsService.findGoodsByCategory(c);
