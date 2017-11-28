@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>EasyBuy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+
+        <div th:replace="fragments/menu :: main"></div>
+        <div class="w3-row-padding">
+            <h1 class="w3-col s12" th:text="${currentUser.fullName}">La Geometria Mar</h1>
+        </div>
+        <form class="w3-row-padding" action="mybooks.html" th:object="${reservation}" th:action="@{/rate_reservation}" method="post">
+            <table class="w3-table w3-bordered w3-striped w3-border w3-hoverable">
+                <tr class="w3-blue">
+                    <th>ID</th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Change Rate</th>
+                    <th></th>
+                </tr>
+                <tr  th:each="rg, stat : ${reservation.getReservationGoods()}">
+                    <td style='vertical-align:middle; width: 20px' th:text="${stat.index+1}">ID</td>
+                    <td style='vertical-align:middle; width: 150px'><a th:href="@{/good(goodsId=${rg.getGoods().id})}"><img src="http://via.placeholder.com/300x300" th:src="@{/good-image(goodId=${rg.goods.id})}" style="width:100%;max-height: 150px;object-fit: contain"/></a></td>
+                    <td style='vertical-align:middle'><a th:href="@{/good(goodsId=${rg.getGoods().id})}" th:text="${rg.goods.name}">Name</a></td>
+                    <td style='vertical-align:middle' th:text="${rg.goods.price + ' &euro;'}">Price</td>
+                    <td style='vertical-align:middle'>
+                        <select class="w3-select" style="width: 120px" th:name="|reservationGoods[${stat.index}].goods.rating|" th:if="${!rg.getRated()}">
+                            <option value="1" th:text="1" th:value="1" th:selected="selected">Option 1</option>
+                            <option value="2" th:text="2" th:value="2">Option 2</option>
+                            <option value="3" th:text="3" th:value="3">Option 3</option>
+                            <option value="4" th:text="4" th:value="4">Option 4</option>
+                            <option value="5" th:text="5" th:value="5">Option 5</option>
+                        </select>
+                    </td>
+                    <td style='vertical-align:middle; width: 200px'>
+                        <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].id}" />
+                        <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].goods.id}" />
+                        <input type="hidden" th:field="*{id}" />
+                        <button class="w3-button w3-black w3-margin" th:if="${!rg.getRated()}">Rate</button> 
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <th:block layout:replace="fragments/menu :: script"/>
+    </body>
+</html>

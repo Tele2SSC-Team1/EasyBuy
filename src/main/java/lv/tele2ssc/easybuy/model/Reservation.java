@@ -36,9 +36,21 @@ public class Reservation implements Serializable {
     @Column
     private float totalPrice;
     
+    @Column
+    private Boolean rated = false;
+
     @OneToMany(mappedBy="reservation", cascade = CascadeType.ALL)
     private List<ReservationGoods> reservationGoods;
 
+    public Boolean getRated() {
+        return rated;
+    }
+
+    public void setRated(Boolean rated) {
+        this.rated = rated;
+    }
+    
+   
     public float getTotalPrice() {
         return totalPrice;
     }
@@ -86,6 +98,11 @@ public class Reservation implements Serializable {
 
     public void setReservationGoods(List<ReservationGoods> reservationGoods) {
         this.reservationGoods = reservationGoods;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" + "id=" + id + ", client=" + client + ", status=" + status + ", created=" + created + ", totalPrice=" + totalPrice + ", rated=" + rated + ", reservationGoods=" + reservationGoods + '}';
     }
 
         

@@ -60,10 +60,10 @@
                             <td th:text="${goods.price} + ' &euro;'">1989</td>
                         </tr>
                         <tr>
-                            <th><span class="fa fa-star checked" th:if="${goods.rating>1}"></span><span class="fa fa-star" th:if="${1>=goods.rating}"></span>
-                                <span class="fa fa-star checked" th:if="${goods.rating>2}"></span><span class="fa fa-star" th:if="${2>=goods.rating}"></span>
-                                <span class="fa fa-star checked" th:if="${goods.rating>3}"></span><span class="fa fa-star" th:if="${3>=goods.rating}"></span>
-                                <span class="fa fa-star checked" th:if="${goods.rating>4}"></span><span class="fa fa-star" th:if="${4>=goods.rating}"></span>
+                            <th><span class="fa fa-star checked" th:if="${goods.rating>=1}"></span><span class="fa fa-star" th:if="${1>goods.rating}"></span>
+                                <span class="fa fa-star checked" th:if="${goods.rating>=2}"></span><span class="fa fa-star" th:if="${2>goods.rating}"></span>
+                                <span class="fa fa-star checked" th:if="${goods.rating>=3}"></span><span class="fa fa-star" th:if="${3>goods.rating}"></span>
+                                <span class="fa fa-star checked" th:if="${goods.rating>=4}"></span><span class="fa fa-star" th:if="${4>goods.rating}"></span>
                                 <span class="fa fa-star checked" th:if="${goods.rating==5}"></span><span class="fa fa-star" th:if="${5>goods.rating}"></span></th>
                         </tr>
                     </table>

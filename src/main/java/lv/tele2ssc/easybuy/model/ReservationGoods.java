@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "reservation_goods")
 public class ReservationGoods implements Serializable {
@@ -20,13 +19,16 @@ public class ReservationGoods implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    
+
     @ManyToOne
     private Goods goods;
-    
+
     @Column(nullable = false)
     private int amount;
-    
+
+    @Column
+    private Boolean rated = false;
+
     @Column
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
@@ -43,9 +45,16 @@ public class ReservationGoods implements Serializable {
         this.reservation = reservation;
     }
 
-    
     public ReservationStatus getStatus() {
         return status;
+    }
+
+    public Boolean getRated() {
+        return rated;
+    }
+
+    public void setRated(Boolean rated) {
+        this.rated = rated;
     }
 
     public void setStatus(ReservationStatus status) {
@@ -75,6 +84,11 @@ public class ReservationGoods implements Serializable {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    
+
+    @Override
+    public String toString() {
+        return "ReservationGoods{" + "id=" + id + ", goods=" + goods + ", amount=" + amount + ", rated=" + rated + ", status=" + status + '}';
+    }
+
     
 }

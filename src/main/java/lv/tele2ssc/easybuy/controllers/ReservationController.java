@@ -2,6 +2,7 @@ package lv.tele2ssc.easybuy.controllers;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import javax.validation.Valid;
 import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Goods;
@@ -62,12 +63,13 @@ public class ReservationController {
 
     @RequestMapping(path = "/submit_reservation", method = RequestMethod.POST)
     public String submit_reservation(@ModelAttribute Reservation reservation, Model model) {
-        logger.debug("change amount {}", reservation);
         for (ReservationGoods rg : reservation.getReservationGoods()) {
             ReservationGoods rgg = reservationService.findReservationGoodById(rg.getId());
             rgg.setAmount(rg.getAmount());
             reservationService.saveReservationGoods(rgg);
         }
+        Reservation reserv = reservationService.findReservationById(reservation.getId());
+        reservationService.changeTotalPrice(reserv);
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userService.findByEmail(email);
@@ -196,29 +198,73 @@ public class ReservationController {
     }
 
     @RequestMapping(path = "/closeReservation", method = RequestMethod.POST)
-    public String closeReservation(@RequestParam String reservationStatus, @RequestParam long reservationId, Model model) {
+    public String closeReservation(@RequestParam(required = false) String reservationStatus, @RequestParam long reservationId, @RequestParam String action, Model model) {
         Reservation reservation = reservationService.findReservationById(reservationId);
-        ReservationStatus status;
-        switch (reservationStatus) {
-            case "APPROVED":
-                status = ReservationStatus.APPROVED;
-                break;
-            case "NOTRECIEVED":
-                status = ReservationStatus.NOTRECIEVED;
-                break;
-            default:
-                status = ReservationStatus.CLOSED;
-                break;
-        }
+        if (action.equals("change_status")) {
+            ReservationStatus status;
+            switch (reservationStatus) {
+                case "APPROVED":
+                    status = ReservationStatus.APPROVED;
+                    break;
+                case "NOTRECIEVED":
+                    status = ReservationStatus.NOTRECIEVED;
+                    break;
+                default:
+                    status = ReservationStatus.CLOSED;
+                    break;
+            }
 
-        reservation.setStatus(status);
-        reservationService.saveReservation(reservation);
+            reservation.setStatus(status);
+            reservationService.saveReservation(reservation);
+            for (ReservationGoods rg : reservation.getReservationGoods()) {
+                rg.setStatus(status);
+                reservationService.saveReservationGoods(rg);
+            }
+
+            return "redirect:/my_reservations";
+        } else {
+            return "redirect:/rate_reservation?reservationId=" + reservationId;
+        }
+    }
+
+    @RequestMapping(path = "/rate_reservation", method = RequestMethod.GET)
+    public String rate_reservation(@RequestParam long reservationId, Model model) {
+        Reservation reservation = reservationService.findReservationById(reservationId);
+        model.addAttribute("reservation", reservation);
+        List<Category> categories = goodsService.findAllCategories();
+        model.addAttribute("categories", categories);
+        return "rate_reservation";
+    }
+
+    @RequestMapping(path = "/rate_reservation", method = RequestMethod.POST)
+    public String rate_reservation_post(@ModelAttribute Reservation reservation, Model model) {
+        logger.debug("change reservation {}", reservation);
+        Boolean status = Boolean.TRUE;
         for (ReservationGoods rg : reservation.getReservationGoods()) {
-            rg.setStatus(status);
-            reservationService.saveReservationGoods(rg);
-        }
+            logger.debug("change reserGood {}", rg);
+            ReservationGoods rgg = reservationService.findReservationGoodById(rg.getId());
+            Goods g = rgg.getGoods();
+            logger.debug("change good {}", g.getRating());
+            logger.debug("change good to {}", rg.getGoods().getRating());
+            if (g.getRating() == 0L) {
+                g.setRating(rg.getGoods().getRating());
+                g.setVotes(1);
+            } else {
+                g.setRating((g.getRating() * g.getVotes() + rg.getGoods().getRating()) / (g.getVotes() + 1));
+                g.setVotes(g.getVotes() + 1);
+            }
+            rgg.setRated(Boolean.TRUE);
+            goodsService.saveGoods(g);
+            reservationService.saveReservationGoods(rgg);
 
-        return "redirect:/my_reservations";
+            if (Objects.equals(rgg.getRated(), Boolean.FALSE)) {
+                status = Boolean.FALSE;
+            }
+        }
+        Reservation reserv = reservationService.findReservationById(reservation.getId());
+        reserv.setRated(status);
+        reservationService.saveReservation(reserv);
+        return "redirect:/rate_reservation?reservationId=" + reserv.getId();
     }
 
     @RequestMapping(path = "/approveReservation", method = RequestMethod.POST)

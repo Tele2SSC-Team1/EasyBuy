@@ -161,6 +161,10 @@ public class Goods implements Serializable {
     public void setCategory(Category category) {
         this.category = category;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Goods{" + "id=" + id + ", name=" + name + ", rating=" + rating + ", votes=" + votes + '}';
+    }   
     
 }

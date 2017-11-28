@@ -54,7 +54,7 @@ insert into user (id, full_name, email, password, PHONE_NUM, rating) values (3, 
 insert into user_role(user_id, role_id) values (3,3);
 insert into user_role(user_id, role_id) values (1,3);
 
-insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS, CATEGORY_ID, IMAGE_FILE_NAME, rating, votes) values (1, 50, 'CEDO03', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 32GB DUAL BLACK ENG/RU', 159, 1, 'AVAILABLE', 42, '951838_xl.jpg', 3, 1);
+insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS, CATEGORY_ID, IMAGE_FILE_NAME, rating, votes) values (1, 50, 'CEDO03', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 32GB DUAL BLACK ENG/RU', 159, 1, 'AVAILABLE', 42, '951838_xl.jpg', 4.7, 18);
 insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS, CATEGORY_ID, IMAGE_FILE_NAME, rating, votes) values (2, 150, 'CEDO04', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI NOTE 4 3GB RAM 32GB BLACK ENG/RU', 175, 1, 'AVAILABLE', 42, '743911_xl.jpg', 4, 1);
 insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS, CATEGORY_ID, IMAGE_FILE_NAME, rating, votes) values (3, 30, 'CEDO05', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 32GB WHITE/GOLD ENG/RU', 146, 1, 'AVAILABLE', 42, '872085_xl.jpg', 5, 1);
 insert into goods(ID, AMOUNT, CODE, DESCRIPTION, MANUFACTURER, NAME, PRICE, SELLER_ID, STATUS, CATEGORY_ID, IMAGE_FILE_NAME, rating, votes) values (4, 30, 'CEDO05', 'New mobile phone from XIAOMI', 'XIAOMI', 'XIAOMI REDMI 4X 128GB WHITE/GOLD ENG/RU', 146, 1, 'AVAILABLE', 42, '786033_xl.jpg', 1, 1);

@@ -72,6 +72,15 @@ public class ReservationService {
         }
     }
     
+    public void changeTotalPrice (Reservation reservation) {
+        float totalPrice = 0L;
+        for(ReservationGoods rg : reservation.getReservationGoods()) {
+            totalPrice=totalPrice + rg.getGoods().getPrice()*rg.getAmount();
+        }
+        reservation.setTotalPrice(totalPrice);
+        reservationRepository.save(reservation);
+    }
+    
     public ReservationGoods findReservationGoodById(long ReservationGoodsId) {
         return reservationGoodsRepository.findOne(ReservationGoodsId);
     }

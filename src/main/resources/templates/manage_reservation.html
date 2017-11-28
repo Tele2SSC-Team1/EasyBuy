@@ -16,6 +16,7 @@
             <table class="w3-table w3-bordered w3-striped w3-border w3-hoverable">
                 <tr class="w3-blue">
                     <th>ID</th>
+                    <th></th>
                     <th>Name</th>
                     <th>Amount</th>
                     <th>Price</th>
@@ -27,7 +28,8 @@
                 </tr>
                 <tr  th:each="rg, stat : ${reservationGoods}">
                     <td style='vertical-align:middle' th:text="${stat.index+1}">ID</td>
-                    <td style='vertical-align:middle' th:text="${rg.goods.name}">Goods name</td>
+                    <td style='vertical-align:middle; width: 150px'><a th:href="@{/good(goodsId=${rg.getGoods().id})}"><img src="http://via.placeholder.com/300x300" th:src="@{/good-image(goodId=${rg.goods.id})}" style="width:100%;max-height: 150px;object-fit: contain"/></a></td>
+                    <td style='vertical-align:middle'><a th:href="@{/good(goodsId=${rg.getGoods().id})}" th:text="${rg.goods.name}">Name</a></td>
                     <td style='vertical-align:middle' th:text="${rg.amount}">Amount</td>
                     <td style='vertical-align:middle' th:text="${rg.goods.price + ' &euro;'}">Price</td>
                     <td style='vertical-align:middle; width: 200px'>
