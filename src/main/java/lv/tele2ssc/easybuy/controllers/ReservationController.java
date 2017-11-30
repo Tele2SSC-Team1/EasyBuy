@@ -300,6 +300,8 @@ public class ReservationController {
             for (ReservationGoods rg : reservation.getReservationGoods()) {
                 rg.setStatus(status);
                 reservationService.saveReservationGoods(rg);
+                rg.getGoods().setAmount(rg.getGoods().getAmount() + rg.getAmount());
+                goodsService.saveGoods(rg.getGoods());
             }
         } else {
             for (ReservationGoods rg : reservation.getReservationGoods()) {
