@@ -15,6 +15,7 @@ function init() {
 
     getSubCatList($("#category").val());
     
+    
 }
 
 function doSearch(term) {
@@ -54,5 +55,6 @@ function fillList(myObject) {
     if ($("#subCategory option[value="+$('#subCategoryId').val()+"]").length != 0) {
         $("#subCategory").val($('#subCategoryId').val());
     }
-    
+   
 } 
+
