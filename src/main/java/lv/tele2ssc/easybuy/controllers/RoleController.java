@@ -54,11 +54,6 @@ public class RoleController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
         
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-        
         model.addAttribute("categories", categories);
 
         return "edit_role";
@@ -84,12 +79,7 @@ public class RoleController {
         
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-        
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-        
+                
         model.addAttribute("categories", categories);
 
         return "edit_one_role";

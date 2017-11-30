@@ -51,12 +51,7 @@ public class GoodsController {
         
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-        
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-        
+                
         model.addAttribute("categories", categories);
         return "new_item";
     }
@@ -69,11 +64,6 @@ public class GoodsController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
         
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-
         Category goodSubCategory = goods.getCategory();
         Category goodCategory = goodSubCategory.getParent();
         model.addAttribute("goods", goods);
@@ -167,11 +157,6 @@ public class GoodsController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
         
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
             User currentUser = userService.findByEmail(email);
