@@ -30,7 +30,6 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Change Rate</th>
-                    <th></th>
                 </tr>
                 <tr  th:each="rg, stat : ${reservation.getReservationGoods()}">
                     <td style='vertical-align:middle; width: 20px' th:text="${stat.index+1}">ID</td>
@@ -52,10 +51,10 @@
                         <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].id}" />
                         <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].goods.id}" />
                         <input type="hidden" th:field="*{id}" />
-                        <button class="w3-button w3-black w3-margin" th:if="${!rg.getRated()}">Rate</button> 
                     </td>
                 </tr>
             </table>
+            <button class="w3-button w3-black w3-margin w3-right" th:if="${!reservation.getRated()}">Rate</button> 
         </form>
         <th:block layout:replace="fragments/menu :: script"/>
     </body>

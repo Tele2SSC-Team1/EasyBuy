@@ -36,11 +36,6 @@ public class UserController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
 
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-
         model.addAttribute("categories", categories);
 
         return "login";
@@ -64,11 +59,6 @@ public class UserController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
 
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-
         model.addAttribute("categories", categories);
 
         return "logout";
@@ -83,11 +73,6 @@ public class UserController {
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
 
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
-
         model.addAttribute("categories", categories);
 
         return "register";
@@ -100,11 +85,6 @@ public class UserController {
 
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
 
         model.addAttribute("categories", categories);
 
@@ -123,11 +103,6 @@ public class UserController {
             //Category list for sidepanel
             List<Category> categories = goodsService.findAllCategories();
 
-            for (Category c : categories) {
-                List<Category> sub = goodsService.findSubCategories(c);
-                c.setSubCategories(sub);
-            }
-
             model.addAttribute("categories", categories);
             
             return "register";
@@ -144,11 +119,6 @@ public class UserController {
         
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-        
-        for (Category c : categories) {
-            List<Category> sub = goodsService.findSubCategories(c);
-            c.setSubCategories(sub);
-        }
         
         model.addAttribute("categories", categories);
 

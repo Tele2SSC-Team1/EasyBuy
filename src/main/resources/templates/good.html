@@ -67,7 +67,7 @@
                                 <span class="fa fa-star checked" th:if="${goods.rating==5}"></span><span class="fa fa-star" th:if="${5>goods.rating}"></span></th>
                         </tr>
                     </table>
-                    <form action="mybooks.html" th:action="@{/order}" method="post" style="width: 100%">
+                    <form action="mybooks.html" th:action="@{/order}" method="post" style="width: 100%" th:if="${goods.amount>0}">
                         <select class="w3-select w3-right w3-margin-left" style="width: 200px" name="orderAmount" >
                             <option value="" disabled="disabled" selected="selected" class="w3-text-gray">Choose amount</option>
                             <option value="1" th:each="i : ${#numbers.sequence( 1, __${goods.amount}__)}" th:text="${i}" th:value="${i}" name="orderAmount">Option 1</option>
