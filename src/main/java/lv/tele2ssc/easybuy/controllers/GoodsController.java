@@ -108,7 +108,8 @@ public class GoodsController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findByEmail(auth.getName());
-        User seller = goods.getSeller();
+        User seller = goodsService.findGoodById(goods.getId()).getSeller();
+        
         if (seller == null) {
             goods.setSeller(seller);
         } else {
