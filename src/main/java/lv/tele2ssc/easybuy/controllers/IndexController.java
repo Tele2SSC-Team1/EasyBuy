@@ -24,6 +24,8 @@ public class IndexController {
     public String page(Model model) {
 
         List<Goods> goods = goodsService.findAllGoods();
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
 
         for (Category c : categories) {
@@ -40,8 +42,15 @@ public class IndexController {
     public String search(@RequestParam String term, Model model) {
 
         List<Goods> list = goodsService.findByTerm(term);
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
         model.addAttribute("goods", list);
         model.addAttribute("term", term);
@@ -55,7 +64,13 @@ public class IndexController {
         logger.debug("find category {}", category.getCategoryName());
         logger.debug("find category {}", category.getParent());
         List<Goods> goods = goodsService.findGoodsByCategory(category);
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         if (category.getParent() == null) {
             List<Category> subCategories = goodsService.findSubCategories(category);

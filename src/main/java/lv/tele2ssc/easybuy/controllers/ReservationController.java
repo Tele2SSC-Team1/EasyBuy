@@ -76,7 +76,13 @@ public class ReservationController {
 
         model.addAttribute("user", currentUser);
 
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         model.addAttribute("categories", categories);
 
@@ -98,7 +104,14 @@ public class ReservationController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("reservation", reservation);
 
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
 
         return "mycart";
@@ -111,7 +124,13 @@ public class ReservationController {
 
         model.addAttribute("user", currentUser);
 
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         model.addAttribute("categories", categories);
 
@@ -139,7 +158,13 @@ public class ReservationController {
         userService.save(user);
         reservationService.saveReservation(reservation);
 
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         model.addAttribute("categories", categories);
 
@@ -171,8 +196,14 @@ public class ReservationController {
 
         model.addAttribute("reservationGoods", reservationGoods);
 
-//Category list for sidepanel
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
 
         return "manage_reservation";
@@ -191,6 +222,12 @@ public class ReservationController {
 
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
 
         return "my_reservations";
@@ -231,7 +268,15 @@ public class ReservationController {
     public String rate_reservation(@RequestParam long reservationId, Model model) {
         Reservation reservation = reservationService.findReservationById(reservationId);
         model.addAttribute("reservation", reservation);
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
         return "rate_reservation";
     }

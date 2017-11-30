@@ -3,13 +3,10 @@ package lv.tele2ssc.easybuy.controllers;
 import java.io.IOException;
 import java.util.List;
 import lv.tele2ssc.easybuy.services.UserService;
-import java.util.Objects;
-import java.util.Set;
 import javax.validation.Valid;
 import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Goods;
 import lv.tele2ssc.easybuy.model.Reservation;
-import lv.tele2ssc.easybuy.model.Role;
 import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.services.GoodsService;
 import lv.tele2ssc.easybuy.services.ImageService;
@@ -23,9 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
@@ -53,8 +48,15 @@ public class GoodsController {
         List<Category> subCategories = goodsService.findAllSubCategories();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
         model.addAttribute("categories", categories);
         return "new_item";
     }
@@ -63,7 +65,14 @@ public class GoodsController {
     public String editItem(@RequestParam long goodsId, Model model) {
         Goods goods = goodsService.findGoodById(goodsId);
         List<Category> subCategories = goodsService.findAllSubCategories();
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         Category goodSubCategory = goods.getCategory();
         Category goodCategory = goodSubCategory.getParent();
@@ -153,7 +162,14 @@ public class GoodsController {
         Goods g1 = goodsService.findGoodById(goodsId);
         Category c1 = g1.getCategory();
         User u1 = g1.getSeller();
+        
+        //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
 
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.validation.Valid;
+import lv.tele2ssc.easybuy.model.Category;
 import lv.tele2ssc.easybuy.model.Role;
 import lv.tele2ssc.easybuy.model.User;
 import lv.tele2ssc.easybuy.services.GoodsService;
@@ -38,6 +39,9 @@ public class RoleController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private GoodsService goodsService;
 
     @RequestMapping(path = "/edit_role", method = RequestMethod.GET)
     public String edit_role(Model model) {
@@ -46,6 +50,16 @@ public class RoleController {
 //        List<Role> roles = roleService.findAllRoles();      
 //        model.addAttribute("roles", roles);
         model.addAttribute("users", users);
+        
+        //Category list for sidepanel
+        List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
+        model.addAttribute("categories", categories);
 
         return "edit_role";
     }
@@ -67,6 +81,16 @@ public class RoleController {
         
         model.addAttribute("roles", roles);
         model.addAttribute("user", user);
+        
+        //Category list for sidepanel
+        List<Category> categories = goodsService.findAllCategories();
+        
+        for (Category c : categories) {
+            List<Category> sub = goodsService.findSubCategories(c);
+            c.setSubCategories(sub);
+        }
+        
+        model.addAttribute("categories", categories);
 
         return "edit_one_role";
     }
