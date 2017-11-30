@@ -10,7 +10,7 @@
         <script src="/js/jquery.barrating.js"></script>
         <script type="text/javascript">
             $(function () {
-                $('#rating').barrating({
+                $('.rating').barrating({
                     theme: 'fontawesome-stars'
                 });
             });
@@ -38,7 +38,7 @@
                     <td style='vertical-align:middle' th:text="${rg.goods.price + ' &euro;'}">Price</td>
                     <td style='vertical-align:middle'>
                         <div class="br-wrapper br-theme-css-stars">
-                            <select id="rating" class="w3-select" style="width: 120px" th:name="|reservationGoods[${stat.index}].goods.rating|" th:if="${!rg.getRated()}">
+                            <select class="w3-select rating" style="width: 120px" th:name="|reservationGoods[${stat.index}].goods.rating|" th:if="${!rg.getRated()}">
                                 <option value="1" th:text="1" th:value="1" th:selected="selected">Option 1</option>
                                 <option value="2" th:text="2" th:value="2">Option 2</option>
                                 <option value="3" th:text="3" th:value="3">Option 3</option>
@@ -46,8 +46,6 @@
                                 <option value="5" th:text="5" th:value="5">Option 5</option>
                             </select>
                         </div>
-                    </td>
-                    <td style='vertical-align:middle; width: 200px'>
                         <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].id}" />
                         <input type="hidden" th:field="*{reservationGoods[__${stat.index}__].goods.id}" />
                         <input type="hidden" th:field="*{id}" />
