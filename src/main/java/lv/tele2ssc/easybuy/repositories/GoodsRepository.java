@@ -18,4 +18,7 @@ public interface GoodsRepository extends CrudRepository<Goods, Long> {
 
     @Query("SELECT g FROM Goods g WHERE g.category = ?1 and g.amount>0 order by g.name")
     public List<Goods> findByCategory(Category category);
+    
+    @Query("SELECT max(g.id) FROM Goods g")
+    public long findMaxId();
 }

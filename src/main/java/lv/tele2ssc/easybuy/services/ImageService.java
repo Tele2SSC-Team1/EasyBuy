@@ -24,28 +24,35 @@ import java.io.IOException;
  */
 @Service
 public class ImageService {
-    
+
     @Value("${image.storage.path}")
-     private String imageStoragePath;
-     @Autowired
-     private GoodsService goodsService;
- 
-     public Resource loadImageAsResource(long goodsId) {
-         Goods goods = goodsService.findGoodById(goodsId);
-         String imageFileName = goods.getImageFileName();
-         Path resourceFilePath = imageFileName == null ? null : Paths.get(imageStoragePath, String.valueOf(goodsId), imageFileName);
-         if (resourceFilePath == null || !Files.exists(resourceFilePath)) {
-             return null;
-         }
-         Resource result = new FileSystemResource(resourceFilePath.toFile());
-         return result;
-     }
-     
-     public void store(Goods goods, MultipartFile file) throws IOException {
-         String imageFileName = file.getOriginalFilename();
-         Path resourceFilePath = Paths.get(imageStoragePath, String.valueOf(goods.getId()), imageFileName);
-         Files.createDirectories(resourceFilePath.getParent());
-         file.transferTo(resourceFilePath.toFile());
-     }
-    
+    private String imageStoragePath;
+    @Autowired
+    private GoodsService goodsService;
+
+    public Resource loadImageAsResource(long goodsId) {
+        Goods goods = goodsService.findGoodById(goodsId);
+        String imageFileName = goods.getImageFileName();
+        Path resourceFilePath = imageFileName == null ? null : Paths.get(imageStoragePath, String.valueOf(goodsId), imageFileName);
+        if (resourceFilePath == null || !Files.exists(resourceFilePath)) {
+            return null;
+        }
+        Resource result = new FileSystemResource(resourceFilePath.toFile());
+        return result;
+    }
+
+    public void store(Goods goods, MultipartFile file) throws IOException {
+        String imageFileName = file.getOriginalFilename();
+        if (goods.getId() == null) {
+            Path resourceFilePath = Paths.get(imageStoragePath, String.valueOf(goodsService.findMaxGoodId() + 1), imageFileName);
+            Files.createDirectories(resourceFilePath.getParent());
+            file.transferTo(resourceFilePath.toFile());
+        } else {
+            Path resourceFilePath = Paths.get(imageStoragePath, String.valueOf(goods.getId()), imageFileName);
+            Files.createDirectories(resourceFilePath.getParent());
+            file.transferTo(resourceFilePath.toFile());
+        }
+
+    }
+
 }

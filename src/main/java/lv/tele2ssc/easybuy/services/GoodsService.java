@@ -26,6 +26,10 @@ public class GoodsService {
         return categories;
     }
 
+    public long findMaxGoodId() {
+        return goodsRepository.findMaxId();
+    }
+
     public List<Category> findAllSubCategories() {
         return categoryRepository.findSubCategories();
     }

@@ -48,10 +48,10 @@ public class GoodsController {
         List<Category> subCategories = goodsService.findAllSubCategories();
         model.addAttribute("goods", goods);
         model.addAttribute("subCategory", subCategories);
-        
+
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-                
+
         model.addAttribute("categories", categories);
         return "new_item";
     }
@@ -60,10 +60,10 @@ public class GoodsController {
     public String editItem(@RequestParam long goodsId, Model model) {
         Goods goods = goodsService.findGoodById(goodsId);
         List<Category> subCategories = goodsService.findAllSubCategories();
-        
+
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-        
+
         Category goodSubCategory = goods.getCategory();
         Category goodCategory = goodSubCategory.getParent();
         model.addAttribute("goods", goods);
@@ -98,13 +98,15 @@ public class GoodsController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userService.findByEmail(auth.getName());
-        User seller = goodsService.findGoodById(goods.getId()).getSeller();
-        
-        if (seller == null) {
-            goods.setSeller(seller);
+        if (goods.getId() != null) {
+            User seller = goodsService.findGoodById(goods.getId()).getSeller();
+            if (seller != null) {
+                goods.setSeller(seller);
+            }
         } else {
             goods.setSeller(currentUser);
         }
+
         goodsService.saveGoods(goods);
 
         Category goodSubCategory = goods.getCategory();
@@ -153,10 +155,10 @@ public class GoodsController {
         Goods g1 = goodsService.findGoodById(goodsId);
         Category c1 = g1.getCategory();
         User u1 = g1.getSeller();
-        
+
         //Category list for sidepanel
         List<Category> categories = goodsService.findAllCategories();
-        
+
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
             User currentUser = userService.findByEmail(email);
