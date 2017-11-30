@@ -86,8 +86,9 @@
                                     <label class="w3-text-grey">subCategory</label>
                                     <select class="w3-select  w3-border" id="subCategory" name="categoryId">
                                         <option value="" disabled="disabled" selected="selected" th:if="${goodSubCategory} == null">Choose your sub-category</option>
-                                        <option th:if="${goodSubCategory} != null" th:selected="${goodSubCategory.getId()} == ${{id}}" w3-repeat="subCategories" value="{{id}}">{{categoryName}}</option>
+                                        <option w3-repeat="subCategories" value="{{id}}">{{categoryName}}</option>
                                     </select>
+                                    <div th:if="${goodSubCategory} != null"><input type="hidden" th:value="${goodSubCategory.getId()}" id="subCategoryId"/> </div>
                                 </div>
                             </div>
                         </div>

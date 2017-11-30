@@ -48,6 +48,11 @@ function getSubCatList(id){
 
 
 function fillList(myObject) {
-    console.log("displaying JSON " + JSON.stringify({"subCategories":myObject}));
-  w3.displayObject("subCategory", {"subCategories":myObject});
-}
+    console.log("displaying JSON " + JSON.stringify({"subCategories": myObject}));
+
+    w3.displayObject("subCategory", {"subCategories": myObject});
+    if ($("#subCategory option[value="+$('#subCategoryId').val()+"]").length != 0) {
+        $("#subCategory").val($('#subCategoryId').val());
+    }
+    
+} 
